@@ -14,14 +14,20 @@ export default function Hero() {
         transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
         className="max-w-5xl"
       >
-        <span className="text-accent-red font-mono text-xs md:text-sm font-black uppercase tracking-[0.2em] mb-4 inline-block">
-          HELLO, I AM CHARAF
-        </span>
+        <div className="flex items-center gap-3 mb-6">
+          <div className="w-12 h-[1px] bg-accent-red" />
+          <span className="text-accent-red font-mono text-xs md:text-sm font-black uppercase tracking-[0.3em] inline-block">
+            HELLO, I AM SOUITA CHARAF
+          </span>
+        </div>
         
-        <h1 className="text-5xl md:text-7xl lg:text-[110px] font-black leading-[0.85] tracking-tighter uppercase font-outfit select-none">
+        <h1 className="text-5xl md:text-7xl lg:text-[110px] font-black leading-[0.85] tracking-tighter uppercase font-outfit select-none relative">
           CRAFTING DIGITAL <br />
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent-red via-accent-purple to-accent-blue">
-            EXPERIENCES.
+          <span className="relative inline-block">
+            <span className="absolute inset-0 bg-gradient-to-r from-accent-red via-accent-purple to-accent-blue blur-xl opacity-30 animate-pulse" />
+            <span className="relative text-transparent bg-clip-text bg-gradient-to-r from-accent-red via-accent-purple to-accent-blue">
+              EXPERIENCES.
+            </span>
           </span>
         </h1>
 

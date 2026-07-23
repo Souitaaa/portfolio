@@ -1,17 +1,15 @@
 import React from 'react';
-import Sidebar from './components/Sidebar';
 import Hero from './components/Hero';
 import Marquee from './components/Marquee';
 import LatestWork from './components/LatestWork';
+import ExperienceBento from './components/ExperienceBento';
 import Testimonials from './components/Testimonials';
+import SpaceGame from './components/SpaceGame';
 import ResumeCTA from './components/ResumeCTA';
 
 export default function App() {
   return (
-    <div className="min-h-screen bg-black text-white flex flex-col lg:flex-row font-sans">
-      {/* Fixed Sticky Left Sidebar */}
-      <Sidebar />
-
+    <div className="min-h-screen bg-black text-white flex flex-col font-sans">
       {/* Main Scrollable Content */}
       <main className="flex-1 flex flex-col min-w-0 bg-black overflow-x-clip">
         {/* Hero Header */}
@@ -23,10 +21,16 @@ export default function App() {
         {/* Overlapping Fanned-Out Case Studies */}
         <LatestWork />
 
+        {/* Bento Grid Experience & Tech Stack */}
+        <ExperienceBento />
+
         {/* Recommendations Section */}
         <Testimonials />
 
-        {/* Curriculum Vitae Download CTA */}
+        {/* Space Game */}
+        <SpaceGame />
+
+        {/* Floating Call to Action */}
         <ResumeCTA />
 
         {/* Modern Minimal Footer */}
