@@ -13,7 +13,7 @@ export default function App() {
       <Sidebar />
 
       {/* Main Scrollable Content */}
-      <main className="flex-1 flex flex-col min-w-0 bg-black overflow-x-hidden">
+      <main className="flex-1 flex flex-col min-w-0 bg-black overflow-x-clip">
         {/* Hero Header */}
         <Hero />
 

@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
-import { Terminal, Code, Play, Cpu, Layers, ExternalLink } from 'lucide-react';
+import { Terminal, Code, Play, Cpu, Layers, ExternalLink, Sparkles } from 'lucide-react';
 
 const projects = [
   {
@@ -256,6 +256,69 @@ const ProjectCard = ({ project, index, scrollYProgress, totalProjects }) => {
   );
 };
 
+const ProjectNavMenu = ({ projects, scrollYProgress }) => {
+  const totalProjects = projects.length;
+  // Map 0-1 scroll progress to active index
+  const activeIndex = useTransform(scrollYProgress, [0, 1], [0, totalProjects - 1]);
+
+  return (
+    <div className="flex flex-col gap-6 w-full">
+      {projects.map((project, index) => {
+        // The project is active when activeIndex is roughly equal to its index.
+        const isActive = useTransform(
+          activeIndex,
+          [index - 0.5, index, index + 0.5],
+          [0, 1, 0] // 1 when active, 0 otherwise
+        );
+
+        const opacity = useTransform(
+          activeIndex,
+          [index - 0.5, index, index + 0.5],
+          [0.3, 1, 0.3]
+        );
+
+        const color = useTransform(
+          activeIndex,
+          [index - 0.5, index, index + 0.5],
+          ["#525252", "#ffffff", "#525252"] // text-neutral-500 to text-white
+        );
+
+        return (
+          <motion.div 
+            key={index}
+            className="flex flex-col border-b border-neutral-900/60 pb-6 last:border-0 relative"
+            style={{ opacity }}
+          >
+            {/* Active Indicator */}
+            <motion.div 
+              className="absolute -left-4 top-1/2 -translate-y-1/2 w-1.5 h-1.5 rounded-full bg-white shadow-[0_0_10px_rgba(255,255,255,0.8)]"
+              style={{ opacity: isActive }}
+            />
+            
+            <motion.h4 
+              className="text-lg md:text-xl font-clash font-bold tracking-wide"
+              style={{ color }}
+            >
+              {project.title}
+            </motion.h4>
+            <p className="text-xs font-mono text-neutral-500 mt-1">
+              {project.tags.join(" • ")}
+            </p>
+          </motion.div>
+        );
+      })}
+
+      {/* View All Projects Link */}
+      <div className="mt-4 pt-6 border-t border-neutral-800 flex items-center justify-between group cursor-pointer hover:bg-white/5 p-4 rounded-xl transition-all duration-300 -ml-4">
+        <span className="text-sm font-bold tracking-widest uppercase font-mono text-neutral-400 group-hover:text-white transition-colors">
+          View All Projects
+        </span>
+        <Sparkles size={18} className="text-neutral-500 group-hover:text-white transition-colors" />
+      </div>
+    </div>
+  );
+};
+
 export default function LatestWork() {
   const containerRef = useRef(null);
 
@@ -276,11 +339,6 @@ export default function LatestWork() {
       {/* 2. The Sticky Wrapper: position: sticky; top: 0; height: 100vh; overflow: hidden; */}
       <div className="sticky top-0 h-[100vh] w-full overflow-hidden flex flex-col justify-center items-center font-inter select-none">
         
-        {/* Background Typography */}
-        <div className="absolute top-[45%] left-1/2 -translate-x-1/2 -translate-y-1/2 text-[15vw] md:text-[12vw] font-black font-clash tracking-tighter text-[#080808] pointer-events-none select-none whitespace-nowrap z-0 w-full text-center">
-          LATEST WORKS
-        </div>
-        
         {/* Ambient backgrounds */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
           <div className="absolute inset-0 bg-[linear-gradient(to_right,#111111_1px,transparent_1px),linear-gradient(to_bottom,#111111_1px,transparent_1px)] bg-[size:40px_40px] opacity-50" />
@@ -290,35 +348,48 @@ export default function LatestWork() {
           <div className="absolute bottom-1/3 right-1/4 w-[500px] h-[500px] rounded-full bg-accent-blue/5 blur-[150px]" />
         </div>
 
-        {/* Content Wrapper */}
-        <div className="relative z-10 w-full max-w-6xl mx-auto flex flex-col h-full justify-center px-6 md:px-12 py-12">
+        {/* Content Wrapper - 3 Column Layout */}
+        <div className="relative z-10 w-full max-w-7xl mx-auto flex flex-col lg:flex-row h-full justify-between items-center px-6 md:px-12 py-12 gap-12">
           
-          {/* Section Header */}
-          <div className="w-full mb-10 flex flex-col md:flex-row md:items-end justify-between border-b border-neutral-900/60 pb-6 shrink-0">
-            <div>
-              <span className="text-accent-red font-mono text-xs md:text-sm font-black uppercase tracking-[0.2em]">
-                PORTFOLIO SHOWCASE
-              </span>
-              <h2 className="text-3xl md:text-5xl font-black font-clash mt-1 tracking-tight text-white uppercase bg-clip-text text-transparent bg-gradient-to-r from-white via-neutral-100 to-neutral-400">
-                SELECTED PROJECTS.
-              </h2>
+          {/* Center Stage (70%) */}
+          <div className="w-full lg:w-[70%] h-full flex flex-col justify-center relative z-10">
+            {/* Background Typography */}
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[14vw] lg:text-[10vw] font-black font-clash tracking-tighter text-[#080808] pointer-events-none select-none whitespace-nowrap z-0 w-full text-center">
+              LATEST WORKS
             </div>
-            <p className="text-neutral-500 text-xs md:text-sm mt-4 md:mt-0 font-mono bg-neutral-900/50 border border-neutral-800/40 rounded-full px-4 py-1.5 backdrop-blur-sm">
-              [ SCROLL DECK ]
-            </p>
+            
+            {/* Section Header */}
+            <div className="relative z-10 w-full mb-10 flex flex-col md:flex-row md:items-end justify-between border-b border-neutral-900/60 pb-6 shrink-0">
+              <div>
+                <span className="text-accent-red font-mono text-xs md:text-sm font-black uppercase tracking-[0.2em]">
+                  PORTFOLIO SHOWCASE
+                </span>
+                <h2 className="text-3xl md:text-5xl font-black font-clash mt-1 tracking-tight text-white uppercase bg-clip-text text-transparent bg-gradient-to-r from-white via-neutral-100 to-neutral-400">
+                  SELECTED PROJECTS.
+                </h2>
+              </div>
+              <p className="text-neutral-500 text-xs md:text-sm mt-4 md:mt-0 font-mono bg-neutral-900/50 border border-neutral-800/40 rounded-full px-4 py-1.5 backdrop-blur-sm">
+                [ SCROLL DECK ]
+              </p>
+            </div>
+
+            {/* 3D Stacked Cards Container */}
+            <div className="relative z-10 w-full max-w-4xl mx-auto h-[450px] md:h-[500px] perspective-1000 mt-4 md:mt-8">
+              {projects.map((project, index) => (
+                <ProjectCard
+                  key={index}
+                  index={index}
+                  project={project}
+                  scrollYProgress={scrollYProgress}
+                  totalProjects={projects.length}
+                />
+              ))}
+            </div>
           </div>
 
-          {/* 3D Stacked Cards Container */}
-          <div className="relative w-full max-w-4xl mx-auto h-[450px] md:h-[500px] perspective-1000 mt-4 md:mt-8">
-            {projects.map((project, index) => (
-              <ProjectCard
-                key={index}
-                index={index}
-                project={project}
-                scrollYProgress={scrollYProgress}
-                totalProjects={projects.length}
-              />
-            ))}
+          {/* Right Navigation Menu (30%) */}
+          <div className="hidden lg:flex w-[30%] h-full flex-col justify-center relative z-10 border-l border-neutral-900/60 pl-10">
+            <ProjectNavMenu projects={projects} scrollYProgress={scrollYProgress} />
           </div>
           
         </div>
