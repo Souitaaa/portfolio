@@ -1,5 +1,4 @@
-import React, { useRef } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import React from 'react';
 import { Terminal, Code, Play, Cpu, Layers, ExternalLink, Sparkles } from 'lucide-react';
 
 const projects = [
@@ -146,59 +145,24 @@ const projects = [
   }
 ];
 
-const ProjectCard = ({ project, index, scrollYProgress, totalProjects }) => {
+const ProjectCard = ({ project, index }) => {
   const Icon = project.icon;
 
-  // Map the 0-1 scroll progress to a 0 to (totalProjects - 1) active index.
-  const activeIndex = useTransform(scrollYProgress, [0, 1], [0, totalProjects - 1]);
-
-  // Use array-based transforms to define exact states for each relative position
-  const scale = useTransform(
-    activeIndex,
-    [index - 3, index - 2, index - 1, index, index + 1],
-    [0.85, 0.9, 0.95, 1, 0.9] // Cards behind scale down; animating out scales slightly back
-  );
-
-  const y = useTransform(
-    activeIndex,
-    [index - 3, index - 2, index - 1, index, index + 0.3, index + 1],
-    [-120, -80, -40, 0, -200, -1000] // Cards behind translate up slightly; active card slides up and away fast
-  );
-
-  const opacity = useTransform(
-    activeIndex,
-    [index, index + 0.3, index + 1],
-    [1, 0, 0] // Active card fades out as it animates up
-  );
-
-  const overlayOpacity = useTransform(
-    activeIndex,
-    [index - 3, index - 2, index - 1, index],
-    [0.7, 0.5, 0.3, 0] // Background cards have darker overlays, front card has none
-  );
-
-  // Z-index ensures natural stacking: card 0 is on top initially, card 4 is on the bottom
-  const zIndex = totalProjects - index;
+  // Stacking logic calculations
+  // `top` defines where the card sticks when scrolling
+  const topOffset = 100 + (index * 40); 
+  const zIndex = index + 10;
 
   return (
-    <motion.div
-      className="absolute top-0 w-full h-[450px] md:h-[500px] rounded-[32px] md:rounded-[48px] bg-[#0d0d0e] border border-neutral-800 shadow-2xl flex flex-col lg:flex-row overflow-hidden will-change-transform"
+    <div
+      className="sticky w-full h-[450px] md:h-[500px] rounded-[32px] md:rounded-[48px] bg-[#0d0d0e] border border-neutral-800 shadow-2xl flex flex-col lg:flex-row overflow-hidden mb-12 transition-all duration-300"
       style={{
-        scale,
-        y,
-        opacity,
-        zIndex,
-        transformOrigin: "bottom center"
+        top: `${topOffset}px`,
+        zIndex: zIndex,
       }}
     >
       {/* Background ambient gradient light inside each card */}
       <div className={`absolute inset-0 bg-gradient-to-br ${project.color} opacity-30 pointer-events-none z-0`} />
-
-      {/* Visual Dimming/Overlay for background cards */}
-      <motion.div 
-        className="absolute inset-0 bg-black z-50 pointer-events-none rounded-[32px] md:rounded-[48px]"
-        style={{ opacity: overlayOpacity }}
-      />
 
       {/* Card Content */}
       <div className="relative z-10 w-full h-full flex flex-col lg:flex-row">
@@ -252,59 +216,26 @@ const ProjectCard = ({ project, index, scrollYProgress, totalProjects }) => {
         </div>
 
       </div>
-    </motion.div>
+    </div>
   );
 };
 
-const ProjectNavMenu = ({ projects, scrollYProgress }) => {
-  const totalProjects = projects.length;
-  // Map 0-1 scroll progress to active index
-  const activeIndex = useTransform(scrollYProgress, [0, 1], [0, totalProjects - 1]);
-
+const ProjectNavMenu = ({ projects }) => {
   return (
-    <div className="flex flex-col gap-6 w-full">
+    <div className="flex flex-col gap-6 w-full sticky top-[100px]">
       {projects.map((project, index) => {
-        // The project is active when activeIndex is roughly equal to its index.
-        const isActive = useTransform(
-          activeIndex,
-          [index - 0.5, index, index + 0.5],
-          [0, 1, 0] // 1 when active, 0 otherwise
-        );
-
-        const opacity = useTransform(
-          activeIndex,
-          [index - 0.5, index, index + 0.5],
-          [0.3, 1, 0.3]
-        );
-
-        const color = useTransform(
-          activeIndex,
-          [index - 0.5, index, index + 0.5],
-          ["#525252", "#ffffff", "#525252"] // text-neutral-500 to text-white
-        );
-
         return (
-          <motion.div 
+          <div 
             key={index}
-            className="flex flex-col border-b border-neutral-900/60 pb-6 last:border-0 relative"
-            style={{ opacity }}
+            className="flex flex-col border-b border-neutral-900/60 pb-6 last:border-0 relative opacity-60 hover:opacity-100 transition-opacity duration-300"
           >
-            {/* Active Indicator */}
-            <motion.div 
-              className="absolute -left-4 top-1/2 -translate-y-1/2 w-1.5 h-1.5 rounded-full bg-white shadow-[0_0_10px_rgba(255,255,255,0.8)]"
-              style={{ opacity: isActive }}
-            />
-            
-            <motion.h4 
-              className="text-lg md:text-xl font-clash font-bold tracking-wide"
-              style={{ color }}
-            >
+            <h4 className="text-lg md:text-xl font-clash font-bold tracking-wide text-neutral-300 hover:text-white transition-colors duration-300">
               {project.title}
-            </motion.h4>
+            </h4>
             <p className="text-xs font-mono text-neutral-500 mt-1">
               {project.tags.join(" • ")}
             </p>
-          </motion.div>
+          </div>
         );
       })}
 
@@ -320,79 +251,55 @@ const ProjectNavMenu = ({ projects, scrollYProgress }) => {
 };
 
 export default function LatestWork() {
-  const containerRef = useRef(null);
-
-  // Track scroll progress of the massive parent container
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start start", "end end"]
-  });
-
   return (
-    // 1. The Pinned Container (Crucial): Massive height based on number of projects
-    <section 
-      ref={containerRef} 
-      className="relative w-full bg-[#000000]" 
-      style={{ height: `${projects.length * 100}vh` }}
-    >
-      
-      {/* 2. The Sticky Wrapper: position: sticky; top: 0; height: 100vh; overflow: hidden; */}
-      <div className="sticky top-0 h-[100vh] w-full overflow-hidden flex flex-col justify-center items-center font-inter select-none">
+    <section className="relative w-full bg-[#000000] py-24 md:py-32 font-inter select-none">
+      {/* Ambient backgrounds */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#111111_1px,transparent_1px),linear-gradient(to_bottom,#111111_1px,transparent_1px)] bg-[size:40px_40px] opacity-50" />
+        <div className="absolute inset-0 bg-[radial-gradient(#1c1c1c_1px,transparent_1px)] [background-size:20px_24px] opacity-50" />
+
+        <div className="absolute top-1/3 left-1/4 w-[400px] h-[400px] rounded-full bg-accent-red/5 blur-[120px]" />
+        <div className="absolute bottom-1/3 right-1/4 w-[500px] h-[500px] rounded-full bg-accent-blue/5 blur-[150px]" />
+      </div>
+
+      {/* Content Wrapper - 3 Column Layout */}
+      <div className="relative z-10 w-full max-w-7xl mx-auto flex flex-col lg:flex-row h-full px-6 md:px-12 gap-12">
         
-        {/* Ambient backgrounds */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
-          <div className="absolute inset-0 bg-[linear-gradient(to_right,#111111_1px,transparent_1px),linear-gradient(to_bottom,#111111_1px,transparent_1px)] bg-[size:40px_40px] opacity-50" />
-          <div className="absolute inset-0 bg-[radial-gradient(#1c1c1c_1px,transparent_1px)] [background-size:20px_24px] opacity-50" />
-
-          <div className="absolute top-1/3 left-1/4 w-[400px] h-[400px] rounded-full bg-accent-red/5 blur-[120px]" />
-          <div className="absolute bottom-1/3 right-1/4 w-[500px] h-[500px] rounded-full bg-accent-blue/5 blur-[150px]" />
-        </div>
-
-        {/* Content Wrapper - 3 Column Layout */}
-        <div className="relative z-10 w-full max-w-7xl mx-auto flex flex-col lg:flex-row h-full justify-between items-center px-6 md:px-12 py-12 gap-12">
+        {/* Center Stage (70%) */}
+        <div className="w-full lg:w-[70%] relative z-10">
           
-          {/* Center Stage (70%) */}
-          <div className="w-full lg:w-[70%] h-full flex flex-col justify-center relative z-10">
-            {/* Background Typography */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[14vw] lg:text-[10vw] font-black font-clash tracking-tighter text-[#080808] pointer-events-none select-none whitespace-nowrap z-0 w-full text-center">
-              LATEST WORKS
+          {/* Section Header */}
+          <div className="relative z-10 w-full mb-16 flex flex-col md:flex-row md:items-end justify-between border-b border-neutral-900/60 pb-6 shrink-0">
+            <div>
+              <span className="text-accent-red font-mono text-xs md:text-sm font-black uppercase tracking-[0.2em]">
+                PORTFOLIO SHOWCASE
+              </span>
+              <h2 className="text-3xl md:text-5xl font-black font-clash mt-1 tracking-tight text-white uppercase bg-clip-text text-transparent bg-gradient-to-r from-white via-neutral-100 to-neutral-400">
+                SELECTED PROJECTS.
+              </h2>
             </div>
-            
-            {/* Section Header */}
-            <div className="relative z-10 w-full mb-10 flex flex-col md:flex-row md:items-end justify-between border-b border-neutral-900/60 pb-6 shrink-0">
-              <div>
-                <span className="text-accent-red font-mono text-xs md:text-sm font-black uppercase tracking-[0.2em]">
-                  PORTFOLIO SHOWCASE
-                </span>
-                <h2 className="text-3xl md:text-5xl font-black font-clash mt-1 tracking-tight text-white uppercase bg-clip-text text-transparent bg-gradient-to-r from-white via-neutral-100 to-neutral-400">
-                  SELECTED PROJECTS.
-                </h2>
-              </div>
-              <p className="text-neutral-500 text-xs md:text-sm mt-4 md:mt-0 font-mono bg-neutral-900/50 border border-neutral-800/40 rounded-full px-4 py-1.5 backdrop-blur-sm">
-                [ SCROLL DECK ]
-              </p>
-            </div>
-
-            {/* 3D Stacked Cards Container */}
-            <div className="relative z-10 w-full max-w-4xl mx-auto h-[450px] md:h-[500px] perspective-1000 mt-4 md:mt-8">
-              {projects.map((project, index) => (
-                <ProjectCard
-                  key={index}
-                  index={index}
-                  project={project}
-                  scrollYProgress={scrollYProgress}
-                  totalProjects={projects.length}
-                />
-              ))}
-            </div>
+            <p className="text-neutral-500 text-xs md:text-sm mt-4 md:mt-0 font-mono bg-neutral-900/50 border border-neutral-800/40 rounded-full px-4 py-1.5 backdrop-blur-sm">
+              [ SCROLL DECK ]
+            </p>
           </div>
 
-          {/* Right Navigation Menu (30%) */}
-          <div className="hidden lg:flex w-[30%] h-full flex-col justify-center relative z-10 border-l border-neutral-900/60 pl-10">
-            <ProjectNavMenu projects={projects} scrollYProgress={scrollYProgress} />
+          {/* 3D Stacked Cards Container */}
+          <div className="relative z-10 w-full max-w-4xl mx-auto">
+            {projects.map((project, index) => (
+              <ProjectCard
+                key={index}
+                index={index}
+                project={project}
+              />
+            ))}
           </div>
-          
         </div>
+
+        {/* Right Navigation Menu (30%) */}
+        <div className="hidden lg:block w-[30%] h-full relative z-10 border-l border-neutral-900/60 pl-10">
+          <ProjectNavMenu projects={projects} />
+        </div>
+        
       </div>
     </section>
   );
