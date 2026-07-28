@@ -1,5 +1,12 @@
 import React from 'react';
-import { Terminal, Code, Play, Cpu, Layers, ExternalLink, Sparkles } from 'lucide-react';
+import { Terminal, Code, Play, Cpu, Layers, ExternalLink, Sparkles, Users, LayoutDashboard } from 'lucide-react';
+import IrcPreview from './previews/IrcPreview';
+import Cub3dPreview from './previews/Cub3dPreview';
+import SoLongPreview from './previews/SoLongPreview';
+import MinishellPreview from './previews/MinishellPreview';
+import InceptionPreview from './previews/InceptionPreview';
+import PhilosophersPreview from './previews/PhilosophersPreview';
+import CrmPreview from './previews/CrmPreview';
 
 const projects = [
   {
@@ -13,14 +20,7 @@ const projects = [
     border: "border-neutral-800",
     icon: Terminal,
     previewType: "terminal",
-    previewContent: (
-      <div className="flex flex-col gap-2 text-[10px] md:text-xs font-mono leading-relaxed select-text p-4 w-full">
-        <div className="text-neutral-600">// Booting IRC server on port 6667...</div>
-        <div><span className="text-accent-red">➜</span> <span className="text-neutral-300">[SOCKET]</span> Bind successful. Listening...</div>
-        <div><span className="text-accent-red">➜</span> <span className="text-accent-green">client_1</span> joined channel <span className="text-accent-purple">#42network</span></div>
-        <div><span className="text-neutral-500">client_1:</span> <span className="text-neutral-300">"hello world!"</span></div>
-      </div>
-    )
+    previewContent: <IrcPreview />
   },
   {
     title: "Cub3d",
@@ -33,26 +33,7 @@ const projects = [
     border: "border-neutral-800",
     icon: Code,
     previewType: "graphics",
-    previewContent: (
-      <div className="w-full h-full relative flex flex-col justify-between p-4 font-mono">
-        <div className="flex justify-between text-[10px] md:text-xs text-neutral-500">
-          <span>fov: 60°</span>
-          <span className="text-accent-purple animate-pulse">RENDER_ACTIVE</span>
-        </div>
-        <div className="flex-1 flex items-end justify-center pb-4">
-          <div className="w-full h-24 flex items-end gap-2 justify-center">
-            {[3, 6, 11, 15, 22, 27, 32, 27, 22, 15, 11, 6, 3].map((h, i) => (
-              <div 
-                key={i} 
-                style={{ height: `${h * 3}px` }} 
-                className="w-2 md:w-3 bg-gradient-to-t from-accent-purple/20 via-accent-purple/60 to-accent-purple rounded-full shadow-[0_0_10px_rgba(114,99,230,0.3)]"
-              />
-            ))}
-          </div>
-        </div>
-        <div className="text-[10px] md:text-xs text-neutral-600 text-center uppercase tracking-widest">[ray_matrix_ok]</div>
-      </div>
-    )
+    previewContent: <Cub3dPreview />
   },
   {
     title: "so_long",
@@ -65,26 +46,7 @@ const projects = [
     border: "border-neutral-800",
     icon: Play,
     previewType: "game",
-    previewContent: (
-      <div className="w-full h-full flex flex-col justify-between p-4">
-        <div className="flex justify-between text-[10px] md:text-xs font-mono text-neutral-500">
-          <span className="text-accent-green font-bold">moves: 014</span>
-          <span>collect: 3/3</span>
-        </div>
-        <div className="grid grid-cols-6 gap-2 p-2 flex-1 items-center justify-center">
-          {Array(18).fill(0).map((_, i) => (
-            <div 
-              key={i} 
-              className={`aspect-square rounded-md md:rounded-lg border ${
-                i === 4 ? 'bg-accent-green/80 border-accent-green shadow-[0_0_12px_rgba(133,194,7,0.6)] animate-pulse' : 
-                i === 11 ? 'bg-accent-red/80 border-accent-red shadow-[0_0_12px_rgba(255,70,46,0.5)]' : 
-                'border-neutral-900 bg-neutral-950'
-              }`} 
-            />
-          ))}
-        </div>
-      </div>
-    )
+    previewContent: <SoLongPreview />
   },
   {
     title: "minishell",
@@ -97,15 +59,7 @@ const projects = [
     border: "border-neutral-800",
     icon: Cpu,
     previewType: "terminal",
-    previewContent: (
-      <div className="flex flex-col gap-2 text-[10px] md:text-xs font-mono leading-relaxed select-text p-4 w-full">
-        <div><span className="text-accent-blue">sharaf_shell$</span> <span className="text-neutral-300">cat config.json | grep "host"</span></div>
-        <div className="text-neutral-500">"host": "127.0.0.1",</div>
-        <div><span className="text-accent-blue">sharaf_shell$</span> <span className="text-neutral-300">echo $STATUS</span></div>
-        <div className="text-accent-green">SUCCESS (0)</div>
-        <div><span className="text-accent-blue">sharaf_shell$</span> <span className="text-accent-blue animate-pulse">▋</span></div>
-      </div>
-    )
+    previewContent: <MinishellPreview />
   },
   {
     title: "Inception",
@@ -118,30 +72,33 @@ const projects = [
     border: "border-neutral-800",
     icon: Layers,
     previewType: "infrastructure",
-    previewContent: (
-      <div className="w-full h-full flex flex-col justify-center gap-4 p-4 font-mono text-[10px] md:text-xs text-neutral-400">
-        <div className="flex justify-around items-center gap-2">
-          <div className="p-2 md:p-3 bg-neutral-900/80 border border-neutral-800 rounded-lg flex flex-col items-center">
-            <span className="text-accent-blue font-bold">Nginx</span>
-            <span className="text-[8px] md:text-[10px] text-neutral-500">Port 443</span>
-          </div>
-          <div className="text-neutral-800">►</div>
-          <div className="p-2 md:p-3 bg-neutral-900/80 border border-neutral-800 rounded-lg flex flex-col items-center">
-            <span className="text-accent-purple font-bold">WordPress</span>
-            <span className="text-[8px] md:text-[10px] text-neutral-500">FPM</span>
-          </div>
-          <div className="text-neutral-800">►</div>
-          <div className="p-2 md:p-3 bg-neutral-900/80 border border-neutral-800 rounded-lg flex flex-col items-center">
-            <span className="text-accent-green font-bold">MariaDB</span>
-            <span className="text-[8px] md:text-[10px] text-neutral-500">Port 3306</span>
-          </div>
-        </div>
-        <div className="flex items-center justify-center gap-2 mt-4 text-[8px] md:text-[10px] text-accent-green">
-          <span className="w-2 h-2 bg-accent-green rounded-full animate-ping"></span>
-          <span>DOCKER CONTAINERS SECURED</span>
-        </div>
-      </div>
-    )
+    previewContent: <InceptionPreview />
+  },
+  {
+    title: "Philosophers",
+    description: "A concurrent programming simulation exploring the Dining Philosophers problem using C threads and mutexes.",
+    tags: ["C", "Concurrency"],
+    date: "2025",
+    github: "https://github.com/Souitaaa/Philosophers.git",
+    color: "from-orange-500/20 via-orange-500/5 to-transparent",
+    glow: "shadow-[0_0_40px_rgba(249,115,22,0.15)] border-orange-500/40",
+    border: "border-neutral-800",
+    icon: Users,
+    previewType: "simulation",
+    previewContent: <PhilosophersPreview />
+  },
+  {
+    title: "Mycel CRM",
+    description: "A comprehensive Customer Relationship Management platform built for freelancers to track clients, invoices, and project boards.",
+    tags: ["React", "TypeScript", "Fullstack"],
+    date: "2026",
+    github: "https://github.com/solacode-SC/Mycel-Freelancer-CRM.git",
+    color: "from-emerald-500/20 via-emerald-500/5 to-transparent",
+    glow: "shadow-[0_0_40px_rgba(16,185,129,0.15)] border-emerald-500/40",
+    border: "border-neutral-800",
+    icon: LayoutDashboard,
+    previewType: "dashboard",
+    previewContent: <CrmPreview />
   }
 ];
 
@@ -240,12 +197,17 @@ const ProjectNavMenu = ({ projects }) => {
       })}
 
       {/* View All Projects Link */}
-      <div className="mt-4 pt-6 border-t border-neutral-800 flex items-center justify-between group cursor-pointer hover:bg-white/5 p-4 rounded-xl transition-all duration-300 -ml-4">
+      <a 
+        href="https://github.com/Souitaaa?tab=repositories"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="mt-4 pt-6 border-t border-neutral-800 flex items-center justify-between group cursor-pointer hover:bg-white/5 p-4 rounded-xl transition-all duration-300 -ml-4"
+      >
         <span className="text-sm font-bold tracking-widest uppercase font-mono text-neutral-400 group-hover:text-white transition-colors">
           View All Projects
         </span>
         <Sparkles size={18} className="text-neutral-500 group-hover:text-white transition-colors" />
-      </div>
+      </a>
     </div>
   );
 };
@@ -296,7 +258,7 @@ export default function LatestWork() {
         </div>
 
         {/* Right Navigation Menu (30%) */}
-        <div className="hidden lg:block w-[30%] h-full relative z-10 border-l border-neutral-900/60 pl-10">
+        <div className="hidden lg:block w-[30%] relative z-10 border-l border-neutral-900/60 pl-10">
           <ProjectNavMenu projects={projects} />
         </div>
         
