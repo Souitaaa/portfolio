@@ -6,8 +6,20 @@ import ExperienceBento from './components/ExperienceBento';
 import Testimonials from './components/Testimonials';
 import SpaceGame from './components/SpaceGame';
 import ResumeCTA from './components/ResumeCTA';
+import { useEffect } from 'react';
 
 export default function App() {
+useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: 'instant'
+    });
+
+    if ('scrollRestoration' in window.history) {
+      window.history.scrollRestoration = 'manual';
+    }
+  }, []);
   return (
     <div className="min-h-screen bg-black text-white flex flex-col font-sans">
       {/* Main Scrollable Content */}
