@@ -18,7 +18,7 @@ export default function Footer() {
 
   return (
     <footer 
-      className="relative bg-neutral-100 dark:bg-[#0a0a0a] rounded-t-[3rem] p-12 md:p-24 overflow-hidden flex flex-col justify-between min-h-[70vh] cursor-none [&_*]:cursor-none mt-20 transition-colors duration-300"
+      className="relative bg-neutral-100 dark:bg-[#0a0a0a] rounded-t-[2rem] md:rounded-t-[3rem] p-8 md:p-24 overflow-hidden flex flex-col justify-between min-h-[70vh] cursor-none [&_*]:cursor-none mt-20 transition-colors duration-300"
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={() => setIsHovering(false)}
     >
@@ -40,7 +40,7 @@ export default function Footer() {
         <div className="flex flex-col sm:flex-row sm:items-center gap-6 mb-16">
           <a 
             href={`mailto:${email}`}
-            className="text-3xl md:text-5xl text-black dark:text-white font-medium hover:text-neutral-600 dark:hover:text-zinc-300 transition-colors duration-300"
+            className="text-2xl sm:text-3xl md:text-5xl text-black dark:text-white font-medium hover:text-neutral-600 dark:hover:text-zinc-300 transition-colors duration-300 break-all"
           >
             {email}
           </a>
@@ -69,11 +69,11 @@ export default function Footer() {
       </div>
 
       {/* Dancing Cat GIF (Right Side) */}
-      <div className="absolute right-8 top-16 md:right-24 md:top-32 w-32 h-32 md:w-48 md:h-48 hidden lg:flex items-center justify-center pointer-events-none opacity-80 mix-blend-multiply dark:mix-blend-screen transition-all duration-300">
+      <div className="absolute right-4 top-8 sm:right-8 sm:top-16 md:right-24 md:top-32 w-16 h-16 sm:w-32 sm:h-32 md:w-48 md:h-48 flex items-center justify-center pointer-events-none opacity-80 mix-blend-multiply dark:mix-blend-screen transition-all duration-300">
         <img 
           src="https://media1.tenor.com/m/Rd0jrWH5JjgAAAAC/cat-scuba.gif" 
           alt="Dancing Scuba Cat" 
-          className="w-full h-full object-cover rounded-[2rem] shadow-2xl"
+          className="w-full h-full object-cover rounded-[1rem] md:rounded-[2rem] shadow-2xl"
         />
       </div>
 

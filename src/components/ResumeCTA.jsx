@@ -27,7 +27,7 @@ export default function ResumeCTA() {
         onMouseMove={handleMouseMove}
         onMouseEnter={() => setIsHovering(true)}
         onMouseLeave={() => setIsHovering(false)}
-        className="w-full bg-white dark:bg-[#121212] border border-neutral-200 dark:border-neutral-900 rounded-3xl p-8 md:p-12 flex flex-col md:flex-row items-center justify-between gap-8 relative overflow-hidden group shadow-xl dark:shadow-none transition-colors duration-300"
+        className="w-full bg-white dark:bg-[#121212] border border-neutral-200 dark:border-neutral-900 rounded-3xl p-6 md:p-12 flex flex-col md:flex-row items-center justify-between gap-8 relative overflow-hidden group shadow-xl dark:shadow-none transition-colors duration-300"
       >
         {/* Subtle decorative background aura */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] rounded-full bg-red-500/5 blur-[80px] pointer-events-none" />
@@ -64,7 +64,7 @@ export default function ResumeCTA() {
         <a 
           href="/cv.pdf" 
           download="Souita_Charaf_Resume.pdf"
-          className="group/btn relative z-10 flex items-center gap-3 bg-black dark:bg-neutral-100 hover:bg-neutral-800 dark:hover:bg-white text-white dark:text-black font-bold text-sm md:text-base rounded-full py-4 px-8 transition-all duration-300 shadow-xl shadow-black/10 dark:shadow-black/30 hover:scale-[1.03] active:scale-[0.97] overflow-hidden"
+          className="group/btn relative z-10 flex items-center justify-center w-full md:w-auto gap-3 bg-black dark:bg-neutral-100 hover:bg-neutral-800 dark:hover:bg-white text-white dark:text-black font-bold text-sm md:text-base rounded-full py-4 px-8 transition-all duration-300 shadow-xl shadow-black/10 dark:shadow-black/30 hover:scale-[1.03] active:scale-[0.97] overflow-hidden"
         >
           {/* Animated Download Icon */}
           <div className="relative w-5 h-5 overflow-hidden flex items-center justify-center">
