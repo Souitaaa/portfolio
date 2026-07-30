@@ -32,7 +32,7 @@ export default function Footer() {
         </div>
 
         {/* Main Typography */}
-        <h2 className="text-5xl md:text-7xl font-medium text-black dark:text-zinc-300 mt-8 mb-12 max-w-2xl tracking-tight leading-tight transition-colors duration-300">
+        <h2 className="text-4xl md:text-7xl font-medium text-black dark:text-zinc-300 mt-8 mb-12 max-w-2xl tracking-tight leading-tight transition-colors duration-300">
           You know what to do.
         </h2>
 
@@ -40,7 +40,7 @@ export default function Footer() {
         <div className="flex flex-col sm:flex-row sm:items-center gap-6 mb-16">
           <a 
             href={`mailto:${email}`}
-            className="text-2xl sm:text-3xl md:text-5xl text-black dark:text-white font-medium hover:text-neutral-600 dark:hover:text-zinc-300 transition-colors duration-300 break-all"
+            className="text-xl sm:text-3xl md:text-5xl text-black dark:text-white font-medium hover:text-neutral-600 dark:hover:text-zinc-300 transition-colors duration-300 break-all"
           >
             {email}
           </a>
@@ -69,7 +69,7 @@ export default function Footer() {
       </div>
 
       {/* Dancing Cat GIF (Right Side) */}
-      <div className="absolute right-4 top-8 sm:right-8 sm:top-16 md:right-24 md:top-32 w-16 h-16 sm:w-32 sm:h-32 md:w-48 md:h-48 flex items-center justify-center pointer-events-none opacity-80 mix-blend-multiply dark:mix-blend-screen transition-all duration-300">
+      <div className="absolute right-4 top-24 sm:right-8 sm:top-24 md:right-24 md:top-32 w-16 h-16 sm:w-32 sm:h-32 md:w-48 md:h-48 flex items-center justify-center pointer-events-none opacity-80 mix-blend-multiply dark:mix-blend-screen transition-all duration-300">
         <img 
           src="https://media1.tenor.com/m/Rd0jrWH5JjgAAAAC/cat-scuba.gif" 
           alt="Dancing Scuba Cat" 

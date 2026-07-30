@@ -1,32 +1,41 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import { Quote, Sparkles } from 'lucide-react';
+import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Quote, Sparkles, X } from 'lucide-react';
 
 const testimonials = [
   {
-    name: "John Doe",
-    role: "Senior Engineering Manager",
-    company: "Acme Corp",
-    quote: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-    initials: "JD"
+    name: "Ayyoub Gaougaou",
+    role: "Inmate",
+    company: "",
+    quote: "Sharaf is an incredibly talented engineer. His ability to architect scalable backend systems and seamlessly integrate them with modern frontends is truly impressive. He's a reliable team player who always delivers high-quality code.",
+    image: "/images/ayyoub.jpg"
   },
   {
-    name: "Sarah Smith",
-    role: "Lead Product Designer",
-    company: "Design Studio",
-    quote: "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-    initials: "SS"
+    name: "Mohamed Amine Amir",
+    role: "Inmate",
+    company: "",
+    quote: "Working with Sharaf is always a great experience. He has a deep understanding of complex algorithms and system design. His solutions are always optimized, clean, and highly performant.",
+    image: "/images/amine.jpg"
   },
   {
-    name: "Alex Johnson",
-    role: "Tech Lead",
-    company: "Startup Lab",
-    quote: "Mollis nunc sed id semper risus in hendrerit gravida rutrum. Elementum tempus egestas sed sed risus pretium. Porttitor massa id neque aliquam vestibulum morbi blandit cursus. Faucibus purus in massa tempor nec feugiat.",
-    initials: "AJ"
+    name: "Mohamed Boumlik",
+    role: "Inmate",
+    company: "",
+    quote: "Sharaf possesses a rare combination of technical brilliance and great communication skills. He tackles difficult problems with ease and consistently elevates the technical standards of any project he works on.",
+    image: "/images/boumlik.jpg"
+  },
+  {
+    name: "Montassir Bouifraden",
+    role: "Inmate",
+    company: "",
+    quote: "An outstanding developer with a keen eye for detail. Sharaf's expertise in C++ and Node.js makes him an invaluable asset. He consistently writes elegant, maintainable code and is always eager to learn new technologies.",
+    image: "/images/montassir.jpg"
   }
 ];
 
 export default function Testimonials() {
+  const [selectedId, setSelectedId] = useState(null);
+
   return (
     <section className="w-full py-16 px-6 md:px-12 select-none border-t border-neutral-200 dark:border-neutral-900/60 mt-12 transition-colors duration-300">
       <div className="flex flex-col md:flex-row md:items-end justify-between mb-12">
@@ -39,42 +48,103 @@ export default function Testimonials() {
           </h2>
         </div>
         <p className="text-neutral-500 text-xs md:text-sm mt-4 md:mt-0 font-mono">
-          [ 3 TESTIMONIALS ]
+          [ {testimonials.length} TESTIMONIALS ]
         </p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
         {testimonials.map((t, index) => (
           <motion.div
+            layoutId={`card-${index}`}
             key={index}
+            onClick={() => setSelectedId(index)}
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-50px" }}
             transition={{ duration: 0.6, delay: index * 0.1 }}
-            className="relative flex flex-col justify-between bg-white dark:bg-background-card border border-neutral-200 dark:border-neutral-900 hover:border-neutral-300 dark:hover:border-neutral-800 p-8 rounded-3xl transition-all duration-300 shadow-sm dark:shadow-none"
+            whileHover={{ scale: 1.05 }}
+            className="relative flex flex-col justify-between bg-white dark:bg-background-card border border-neutral-200 dark:border-neutral-900 hover:border-neutral-300 dark:hover:border-neutral-800 p-6 sm:p-8 rounded-3xl transition-all duration-300 shadow-sm dark:shadow-none hover:shadow-2xl dark:hover:shadow-[0_12px_40px_rgba(255,255,255,0.08)] z-0 hover:z-10 cursor-pointer"
           >
-            <div className="absolute top-6 right-8 text-neutral-200 dark:text-neutral-800 pointer-events-none transition-colors duration-300">
-              <Quote size={40} />
+            <div className="absolute top-6 right-8 text-neutral-200/50 dark:text-neutral-800/50 pointer-events-none transition-colors duration-300 z-0">
+              <Quote size={60} strokeWidth={1} />
             </div>
 
-            <div>
+            <div className="relative z-10">
               <p className="text-neutral-600 dark:text-neutral-400 text-xs md:text-sm leading-relaxed font-satoshi italic transition-colors duration-300">
                 "{t.quote}"
               </p>
             </div>
 
             <div className="flex items-center gap-4 mt-8 border-t border-neutral-200 dark:border-neutral-900/60 pt-6 transition-colors duration-300">
-              <div className="w-10 h-10 rounded-full bg-neutral-100 dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 flex items-center justify-center font-clash font-bold text-xs text-neutral-600 dark:text-neutral-300 transition-colors duration-300">
-                {t.initials}
-              </div>
+              {t.image ? (
+                <img src={t.image} alt={t.name} className="w-16 h-16 rounded-full object-cover border border-neutral-200 dark:border-neutral-800 shrink-0" />
+              ) : (
+                <div className="w-16 h-16 rounded-full bg-neutral-100 dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 flex items-center justify-center font-clash font-bold text-base text-neutral-600 dark:text-neutral-300 transition-colors duration-300 shrink-0">
+                  {t.initials}
+                </div>
+              )}
               <div>
-                <h4 className="text-sm font-bold font-clash text-neutral-800 dark:text-neutral-200 transition-colors duration-300">{t.name}</h4>
-                <p className="text-[10px] text-neutral-500 font-mono mt-0.5 uppercase tracking-wider">{t.role} • {t.company}</p>
+                <h4 className="text-sm md:text-base font-bold font-clash text-neutral-800 dark:text-neutral-200 transition-colors duration-300">{t.name}</h4>
+                <p className="text-[10px] md:text-xs text-neutral-500 font-mono mt-0.5 uppercase tracking-wider">
+                  {t.role}{t.company ? ` • ${t.company}` : ''}
+                </p>
               </div>
             </div>
           </motion.div>
         ))}
       </div>
+
+      <AnimatePresence>
+        {selectedId !== null && (
+          <>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setSelectedId(null)}
+              className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 cursor-pointer"
+            />
+            <div className="fixed inset-0 flex items-center justify-center z-50 pointer-events-none p-4 sm:p-8">
+              <motion.div
+                layoutId={`card-${selectedId}`}
+                className="relative bg-white dark:bg-background-card border border-neutral-200 dark:border-neutral-800 w-full max-w-2xl rounded-3xl p-8 sm:p-12 shadow-2xl pointer-events-auto flex flex-col overflow-hidden"
+              >
+                <button 
+                  onClick={() => setSelectedId(null)}
+                  className="absolute top-6 right-6 p-2 bg-neutral-100 dark:bg-neutral-900 rounded-full text-neutral-500 hover:text-black dark:hover:text-white transition-colors"
+                >
+                  <X size={20} />
+                </button>
+
+                <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6 mb-8">
+                  {testimonials[selectedId].image ? (
+                    <img src={testimonials[selectedId].image} alt={testimonials[selectedId].name} className="w-32 h-32 sm:w-40 sm:h-40 rounded-2xl object-cover border border-neutral-200 dark:border-neutral-800 shrink-0 shadow-lg" />
+                  ) : (
+                    <div className="w-32 h-32 sm:w-40 sm:h-40 rounded-2xl bg-neutral-100 dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 flex items-center justify-center font-clash font-bold text-4xl text-neutral-600 dark:text-neutral-300 shrink-0 shadow-lg">
+                      {testimonials[selectedId].initials}
+                    </div>
+                  )}
+                  <div className="text-center sm:text-left pt-2 sm:pt-4">
+                    <h3 className="text-2xl sm:text-3xl font-bold font-clash text-neutral-800 dark:text-neutral-200">{testimonials[selectedId].name}</h3>
+                    <p className="text-sm text-neutral-500 font-mono mt-2 uppercase tracking-wider">
+                      {testimonials[selectedId].role}{testimonials[selectedId].company ? ` • ${testimonials[selectedId].company}` : ''}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="relative">
+                  <div className="absolute -top-4 -left-4 text-neutral-200/50 dark:text-neutral-800/50 pointer-events-none z-0">
+                    <Quote size={80} strokeWidth={1} />
+                  </div>
+                  <p className="text-neutral-600 dark:text-neutral-300 text-lg sm:text-xl leading-relaxed font-satoshi italic relative z-10">
+                    "{testimonials[selectedId].quote}"
+                  </p>
+                </div>
+              </motion.div>
+            </div>
+          </>
+        )}
+      </AnimatePresence>
     </section>
   );
 }
