@@ -28,13 +28,13 @@ const testimonials = [
 
 export default function Testimonials() {
   return (
-    <section className="w-full py-16 px-6 md:px-12 select-none border-t border-neutral-900/60 mt-12">
+    <section className="w-full py-16 px-6 md:px-12 select-none border-t border-neutral-200 dark:border-neutral-900/60 mt-12 transition-colors duration-300">
       <div className="flex flex-col md:flex-row md:items-end justify-between mb-12">
         <div>
           <span className="text-accent-red font-mono text-xs md:text-sm font-bold uppercase tracking-widest flex items-center gap-1.5">
             <Sparkles size={12} /> COOLEST PEOPLE I WORKED WITH
           </span>
-          <h2 className="text-4xl md:text-6xl font-black font-clash mt-2 tracking-tight">
+          <h2 className="text-4xl md:text-6xl font-black font-clash mt-2 tracking-tight text-black dark:text-white transition-colors duration-300">
             RECOMMENDATIONS.
           </h2>
         </div>
@@ -51,24 +51,24 @@ export default function Testimonials() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-50px" }}
             transition={{ duration: 0.6, delay: index * 0.1 }}
-            className="relative flex flex-col justify-between bg-background-card border border-neutral-900 hover:border-neutral-800 p-8 rounded-3xl transition-all duration-300"
+            className="relative flex flex-col justify-between bg-white dark:bg-background-card border border-neutral-200 dark:border-neutral-900 hover:border-neutral-300 dark:hover:border-neutral-800 p-8 rounded-3xl transition-all duration-300 shadow-sm dark:shadow-none"
           >
-            <div className="absolute top-6 right-8 text-neutral-800 pointer-events-none">
+            <div className="absolute top-6 right-8 text-neutral-200 dark:text-neutral-800 pointer-events-none transition-colors duration-300">
               <Quote size={40} />
             </div>
 
             <div>
-              <p className="text-neutral-400 text-xs md:text-sm leading-relaxed font-satoshi italic">
+              <p className="text-neutral-600 dark:text-neutral-400 text-xs md:text-sm leading-relaxed font-satoshi italic transition-colors duration-300">
                 "{t.quote}"
               </p>
             </div>
 
-            <div className="flex items-center gap-4 mt-8 border-t border-neutral-900/60 pt-6">
-              <div className="w-10 h-10 rounded-full bg-neutral-900 border border-neutral-800 flex items-center justify-center font-clash font-bold text-xs text-neutral-300">
+            <div className="flex items-center gap-4 mt-8 border-t border-neutral-200 dark:border-neutral-900/60 pt-6 transition-colors duration-300">
+              <div className="w-10 h-10 rounded-full bg-neutral-100 dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 flex items-center justify-center font-clash font-bold text-xs text-neutral-600 dark:text-neutral-300 transition-colors duration-300">
                 {t.initials}
               </div>
               <div>
-                <h4 className="text-sm font-bold font-clash text-neutral-200">{t.name}</h4>
+                <h4 className="text-sm font-bold font-clash text-neutral-800 dark:text-neutral-200 transition-colors duration-300">{t.name}</h4>
                 <p className="text-[10px] text-neutral-500 font-mono mt-0.5 uppercase tracking-wider">{t.role} • {t.company}</p>
               </div>
             </div>

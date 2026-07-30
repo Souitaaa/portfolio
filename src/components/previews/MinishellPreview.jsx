@@ -8,10 +8,12 @@ export default function MinishellPreview() {
     { type: 'output', text: 'SUCCESS (0)', color: 'text-accent-green' }
   ]);
   const [input, setInput] = useState('');
-  const bottomRef = useRef(null);
+  const containerRef = useRef(null);
 
   useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
+    if (containerRef.current) {
+      containerRef.current.scrollTop = containerRef.current.scrollHeight;
+    }
   }, [history]);
 
   const handleCommand = (e) => {
@@ -19,25 +21,28 @@ export default function MinishellPreview() {
     if (!input.trim()) return;
 
     const newHistory = [...history, { type: 'command', text: input }];
-    const cmd = input.trim().toLowerCase();
+    const cmd = input.trim();
+    const cmdLower = cmd.toLowerCase();
 
     let output = '';
     let color = 'text-neutral-300';
 
-    if (cmd === 'clear') {
+    if (cmdLower === 'clear') {
       setHistory([]);
       setInput('');
       return;
-    } else if (cmd === 'help') {
-      output = 'Available commands: help, clear, echo [text], whoami, date, ls';
-    } else if (cmd.startsWith('echo ')) {
-      output = input.substring(5);
-    } else if (cmd === 'whoami') {
+    } else if (cmdLower === 'help') {
+      output = 'Available commands: help, clear, echo [text], whoami, date, ls, pwd';
+    } else if (cmdLower.startsWith('echo')) {
+      output = cmd.length > 4 ? cmd.substring(5) : '';
+    } else if (cmdLower === 'whoami') {
       output = 'sharaf_guest';
-    } else if (cmd === 'date') {
+    } else if (cmdLower === 'date') {
       output = new Date().toString();
-    } else if (cmd === 'ls') {
+    } else if (cmdLower === 'ls') {
       output = 'src/  public/  package.json  README.md  .gitignore';
+    } else if (cmdLower === 'pwd') {
+      output = '/home/sharaf_guest/portfolio';
     } else {
       output = `minishell: command not found: ${cmd.split(' ')[0]}`;
       color = 'text-red-400';
@@ -50,7 +55,7 @@ export default function MinishellPreview() {
 
   return (
     <div className="flex flex-col text-sm md:text-base font-mono leading-relaxed select-text p-8 w-full h-full max-w-2xl bg-black/60 rounded-2xl border border-white/10 shadow-2xl text-neutral-300 overflow-hidden" onClick={() => document.getElementById('minishell-input')?.focus()}>
-      <div className="flex-1 overflow-y-auto custom-scrollbar flex flex-col gap-3">
+      <div ref={containerRef} className="flex-1 overflow-y-auto custom-scrollbar flex flex-col gap-3">
         {history.map((line, i) => (
           <div key={i}>
             {line.type === 'command' ? (
@@ -73,7 +78,6 @@ export default function MinishellPreview() {
             spellCheck="false"
           />
         </form>
-        <div ref={bottomRef} />
       </div>
     </div>
   );

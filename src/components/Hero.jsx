@@ -31,7 +31,7 @@ export default function Hero() {
           </span>
         </h1>
 
-        <p className="text-neutral-400 text-sm md:text-lg max-w-2xl mt-8 font-medium leading-relaxed font-sans">
+        <p className="text-neutral-600 dark:text-neutral-400 text-sm md:text-lg max-w-2xl mt-8 font-medium leading-relaxed font-sans">
           A multi-disciplinary Software Engineer and Frontend Developer studying at 1337 (42 Network). 
           I merge intuitive design systems with high-performance code to build digital architectures 
           that feel as premium and effortless as they are robust.

@@ -9,10 +9,12 @@ export default function IrcPreview() {
     { sender: 'bot', text: 'Welcome to the server! Type something to chat.' }
   ]);
   const [input, setInput] = useState('');
-  const bottomRef = useRef(null);
+  const containerRef = useRef(null);
 
   useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
+    if (containerRef.current) {
+      containerRef.current.scrollTop = containerRef.current.scrollHeight;
+    }
   }, [messages]);
 
   const handleSend = (e) => {
@@ -39,7 +41,7 @@ export default function IrcPreview() {
 
   return (
     <div className="flex flex-col text-sm md:text-base font-mono leading-relaxed select-text p-8 w-full h-full max-w-2xl bg-black/60 rounded-2xl border border-white/10 shadow-2xl text-neutral-300 overflow-hidden" onClick={() => document.getElementById('irc-input')?.focus()}>
-      <div className="flex-1 overflow-y-auto custom-scrollbar flex flex-col gap-3">
+      <div ref={containerRef} className="flex-1 overflow-y-auto custom-scrollbar flex flex-col gap-3">
         {messages.map((msg, i) => (
           <div key={i}>
             {msg.sender === 'system' ? (
@@ -75,7 +77,6 @@ export default function IrcPreview() {
             spellCheck="false"
           />
         </form>
-        <div ref={bottomRef} />
       </div>
     </div>
   );

@@ -4,6 +4,18 @@ export default function SpaceGame() {
   const canvasRef = useRef(null);
   const [gameState, setGameState] = useState('START'); // START, PLAYING, GAME_OVER
   const [score, setScore] = useState(0);
+  const [isDarkTheme, setIsDarkTheme] = useState(true);
+
+  useEffect(() => {
+    // Initial check
+    setIsDarkTheme(document.documentElement.classList.contains('dark'));
+    
+    const handleThemeChange = () => {
+      setIsDarkTheme(document.documentElement.classList.contains('dark'));
+    };
+    window.addEventListener('theme-change', handleThemeChange);
+    return () => window.removeEventListener('theme-change', handleThemeChange);
+  }, []);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -248,8 +260,8 @@ export default function SpaceGame() {
     };
 
     const draw = () => {
-      // Clear canvas with deep dark background
-      ctx.fillStyle = '#050505';
+      // Clear canvas with background depending on theme
+      ctx.fillStyle = isDarkTheme ? '#050505' : '#ffffff';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
       // Draw dashed center line (aesthetic)
@@ -264,7 +276,8 @@ export default function SpaceGame() {
 
       // Draw Stars
       for (const s of stars) {
-        drawPlusStar(s.x, s.y, s.size * 3, s.color);
+        const starColor = isDarkTheme ? s.color : (s.color === '#ffffff' ? '#000000' : '#a3a3a3');
+        drawPlusStar(s.x, s.y, s.size * 3, starColor);
       }
 
       // Draw Player
@@ -311,7 +324,7 @@ export default function SpaceGame() {
       canvas.removeEventListener('mousemove', handlePointerMove);
       canvas.removeEventListener('touchmove', handlePointerMove);
     };
-  }, [gameState]);
+  }, [gameState, isDarkTheme]);
 
   const startGame = () => {
     setScore(0);
@@ -319,32 +332,32 @@ export default function SpaceGame() {
   };
 
   return (
-    <section className="w-full bg-black py-16 px-6 md:px-12 relative flex flex-col items-center select-none font-mono">
-      <div className="w-full max-w-5xl mb-6 flex justify-between items-end border-b border-neutral-900 pb-4">
+    <section className="w-full bg-neutral-50 dark:bg-black py-16 px-6 md:px-12 relative flex flex-col items-center select-none font-mono transition-colors duration-300">
+      <div className="w-full max-w-5xl mb-6 flex justify-between items-end border-b border-neutral-200 dark:border-neutral-900 pb-4 transition-colors duration-300">
         <div>
           <span className="text-accent-blue font-bold text-xs uppercase tracking-[0.2em] block mb-1">
             MINI-GAME
           </span>
-          <h2 className="text-2xl text-white font-clash font-black uppercase tracking-widest">
+          <h2 className="text-2xl text-black dark:text-white font-clash font-black uppercase tracking-widest transition-colors duration-300">
             SPACE INVADERS
           </h2>
         </div>
         <div className="text-right">
           <p className="text-neutral-500 text-xs mb-1">SCORE</p>
-          <p className="text-white font-black text-xl">{score}</p>
+          <p className="text-black dark:text-white font-black text-xl transition-colors duration-300">{score}</p>
         </div>
       </div>
       
-      <div className="w-full max-w-5xl rounded-3xl overflow-hidden border border-neutral-800 shadow-[0_0_50px_rgba(0,0,0,0.5)] relative bg-[#050505]">
+      <div className={`w-full max-w-5xl rounded-3xl overflow-hidden border border-neutral-300 dark:border-neutral-800 shadow-[0_0_50px_rgba(0,0,0,0.1)] dark:shadow-[0_0_50px_rgba(0,0,0,0.5)] relative transition-colors duration-300 ${isDarkTheme ? 'bg-[#050505]' : 'bg-white'}`}>
         {/* Subtle scanline overlay for retro effect */}
-        <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0),rgba(255,255,255,0.03)_50%,rgba(0,0,0,0.1)_51%,rgba(0,0,0,0)_100%)] bg-[length:100%_4px] pointer-events-none z-10 opacity-50" />
+        <div className={`absolute inset-0 bg-[length:100%_4px] pointer-events-none z-10 opacity-50 ${isDarkTheme ? 'bg-[linear-gradient(rgba(255,255,255,0),rgba(255,255,255,0.03)_50%,rgba(0,0,0,0.1)_51%,rgba(0,0,0,0)_100%)]' : 'bg-[linear-gradient(rgba(0,0,0,0),rgba(0,0,0,0.03)_50%,rgba(255,255,255,0.1)_51%,rgba(255,255,255,0)_100%)]'}`} />
         
         {/* Game Overlays via React for better UI and State syncing */}
         {gameState === 'START' && (
-          <div className="absolute inset-0 z-30 bg-black/60 backdrop-blur-sm flex flex-col items-center justify-center">
+          <div className={`absolute inset-0 z-30 ${isDarkTheme ? 'bg-black/60' : 'bg-white/60'} backdrop-blur-sm flex flex-col items-center justify-center transition-colors duration-300`}>
             <button 
               onClick={startGame}
-              className="px-8 py-3 bg-white text-black font-bold text-lg rounded-full hover:bg-neutral-200 transition-transform hover:scale-105 active:scale-95 shadow-[0_0_20px_rgba(255,255,255,0.3)]"
+              className={`px-8 py-3 font-bold text-lg rounded-full transition-transform hover:scale-105 active:scale-95 shadow-[0_0_20px_rgba(0,0,0,0.1)] dark:shadow-[0_0_20px_rgba(255,255,255,0.3)] ${isDarkTheme ? 'bg-white text-black hover:bg-neutral-200' : 'bg-black text-white hover:bg-neutral-800'}`}
             >
               CLICK TO START
             </button>
@@ -352,12 +365,12 @@ export default function SpaceGame() {
         )}
 
         {gameState === 'GAME_OVER' && (
-          <div className="absolute inset-0 z-30 bg-black/80 backdrop-blur-md flex flex-col items-center justify-center">
+          <div className={`absolute inset-0 z-30 ${isDarkTheme ? 'bg-black/80' : 'bg-white/80'} backdrop-blur-md flex flex-col items-center justify-center transition-colors duration-300`}>
             <h3 className="text-4xl text-accent-red font-black font-clash mb-2 tracking-widest drop-shadow-[0_0_15px_rgba(239,68,68,0.8)]">GAME OVER</h3>
-            <p className="text-neutral-300 text-lg mb-8">FINAL SCORE: <span className="text-white font-bold">{score}</span></p>
+            <p className="text-neutral-600 dark:text-neutral-300 text-lg mb-8 transition-colors duration-300">FINAL SCORE: <span className="text-black dark:text-white font-bold">{score}</span></p>
             <button 
               onClick={startGame}
-              className="px-8 py-3 bg-white text-black font-bold rounded-full hover:bg-neutral-200 transition-transform hover:scale-105 active:scale-95 shadow-[0_0_20px_rgba(255,255,255,0.3)]"
+              className={`px-8 py-3 font-bold rounded-full transition-transform hover:scale-105 active:scale-95 shadow-[0_0_20px_rgba(0,0,0,0.1)] dark:shadow-[0_0_20px_rgba(255,255,255,0.3)] ${isDarkTheme ? 'bg-white text-black hover:bg-neutral-200' : 'bg-black text-white hover:bg-neutral-800'}`}
             >
               PLAY AGAIN
             </button>
@@ -371,7 +384,7 @@ export default function SpaceGame() {
         />
         
         <div className="absolute bottom-4 left-4 z-20 pointer-events-none">
-          <p className="text-white/40 text-[10px] uppercase font-bold tracking-widest">
+          <p className="text-black/40 dark:text-white/40 text-[10px] uppercase font-bold tracking-widest transition-colors duration-300">
             Arrow Keys / Touch to Move
           </p>
         </div>

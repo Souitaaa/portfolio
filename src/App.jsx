@@ -8,6 +8,7 @@ import SpaceGame from './components/SpaceGame';
 import ResumeCTA from './components/ResumeCTA';
 import Footer from './components/Footer';
 import CustomCursor from './components/CustomCursor';
+import ThemeToggle from './components/ThemeToggle';
 import { useEffect } from 'react';
 
 export default function App() {
@@ -23,10 +24,11 @@ useEffect(() => {
     }
   }, []);
   return (
-    <div className="min-h-screen bg-black text-white flex flex-col font-sans">
+    <div className="min-h-screen bg-white text-black dark:bg-black dark:text-white flex flex-col font-sans transition-colors duration-300">
       <CustomCursor />
+      <ThemeToggle />
       {/* Main Scrollable Content */}
-      <main className="flex-1 flex flex-col min-w-0 bg-black overflow-x-clip cursor-none [&_*]:cursor-none">
+      <main className="flex-1 flex flex-col min-w-0 bg-white dark:bg-black overflow-x-clip cursor-none [&_*]:cursor-none transition-colors duration-300">
         {/* Hero Header */}
         <Hero />
 

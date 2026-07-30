@@ -29,10 +29,10 @@ const BentoCard = ({ children, className = "", delay = 0 }) => {
       viewport={{ once: true, margin: "-100px" }}
       transition={{ duration: 0.7, delay, ease: "easeOut" }}
       whileHover={{ scale: 1.02 }}
-      className={`relative overflow-hidden rounded-3xl bg-[rgba(255,255,255,0.03)] border border-white/10 backdrop-blur-md shadow-2xl transition-all duration-500 hover:shadow-[inset_0_0_80px_rgba(255,255,255,0.02)] group ${className}`}
+      className={`relative overflow-hidden rounded-3xl bg-white/80 dark:bg-[rgba(255,255,255,0.03)] border border-neutral-200 dark:border-white/10 backdrop-blur-md shadow-xl dark:shadow-2xl transition-all duration-500 hover:shadow-[inset_0_0_80px_rgba(0,0,0,0.02)] dark:hover:shadow-[inset_0_0_80px_rgba(255,255,255,0.02)] group ${className}`}
     >
       {/* Subtle hover gradient glow */}
-      <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+      <div className="absolute inset-0 bg-gradient-to-br from-black/5 dark:from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
       <div className="relative z-10 w-full h-full p-8">
         {children}
       </div>
@@ -42,9 +42,9 @@ const BentoCard = ({ children, className = "", delay = 0 }) => {
 
 export default function ExperienceBento() {
   return (
-    <section className="w-full bg-black py-24 md:py-32 px-6 md:px-12 relative overflow-hidden">
+    <section className="w-full bg-neutral-50 dark:bg-black py-24 md:py-32 px-6 md:px-12 relative overflow-hidden transition-colors duration-300">
       {/* Ambient background for the section */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
+      <div className="absolute inset-0 overflow-hidden pointer-events-none z-0 hidden dark:block">
         <div className="absolute top-1/2 left-1/4 w-[600px] h-[600px] rounded-full bg-neutral-900/40 blur-[150px]" />
       </div>
 
@@ -57,10 +57,10 @@ export default function ExperienceBento() {
           viewport={{ once: true }}
           className="mb-16"
         >
-          <span className="text-neutral-500 font-mono text-xs md:text-sm font-black uppercase tracking-[0.2em]">
+          <span className="text-neutral-500 dark:text-neutral-500 font-mono text-xs md:text-sm font-black uppercase tracking-[0.2em]">
             BACKGROUND & EXPERTISE
           </span>
-          <h2 className="text-3xl md:text-5xl font-black font-clash mt-2 tracking-tight text-white">
+          <h2 className="text-3xl md:text-5xl font-black font-clash mt-2 tracking-tight text-black dark:text-white transition-colors duration-300">
             EXPERIENCE.
           </h2>
         </motion.div>
@@ -70,21 +70,21 @@ export default function ExperienceBento() {
           
           {/* 1. The Terminal Card (Wide) */}
           <BentoCard delay={0.1} className="md:col-span-3 lg:col-span-2 row-span-2">
-            <div className="flex flex-col h-full">
-              <div className="flex items-center gap-2 mb-6 border-b border-white/10 pb-4">
+            <div className="flex flex-col h-full bg-neutral-100/50 dark:bg-transparent rounded-2xl p-4 md:p-0 transition-colors duration-300">
+              <div className="flex items-center gap-2 mb-6 border-b border-neutral-300 dark:border-white/10 pb-4">
                 <div className="w-3 h-3 rounded-full bg-[#ff5f56]" />
                 <div className="w-3 h-3 rounded-full bg-[#ffbd2e]" />
                 <div className="w-3 h-3 rounded-full bg-[#27c93f]" />
                 <span className="ml-2 text-xs font-mono text-neutral-500">sharaf@backend-arch ~</span>
               </div>
               
-              <div className="flex-1 font-mono text-sm md:text-base leading-relaxed text-neutral-300">
+              <div className="flex-1 font-mono text-sm md:text-base leading-relaxed text-neutral-700 dark:text-neutral-300">
                 <div className="mb-4">
                   <span className="text-accent-blue">{'>'}</span> <span className="text-neutral-500">whoami</span>
                 </div>
-                <div className="text-neutral-400 mb-6">
+                <div className="text-neutral-800 dark:text-neutral-400 mb-6">
                   <TypewriterText text="I am a Software Engineer specializing in scalable backend architectures and full-stack applications. I build robust systems using C, C++, Node.js, and modern frontend frameworks." />
-                  <span className="animate-pulse ml-1 text-white">_</span>
+                  <span className="animate-pulse ml-1 text-black dark:text-white">_</span>
                 </div>
                 
                 <div className="mb-2">
@@ -100,15 +100,15 @@ export default function ExperienceBento() {
 
           {/* 2. The Featured Skills Card (Tall) */}
           <BentoCard delay={0.2} className="md:col-span-1 lg:col-span-1 row-span-3 flex flex-col">
-            <h3 className="text-xl font-clash font-bold mb-8 text-white">Featured Skills</h3>
+            <h3 className="text-xl font-clash font-bold mb-8 text-black dark:text-white transition-colors duration-300">Featured Skills</h3>
             <div className="space-y-6 flex-1 flex flex-col justify-center">
               
               <div className="group/skill">
                 <div className="flex justify-between items-center mb-2">
-                  <span className="text-sm font-bold text-neutral-300 group-hover/skill:text-white transition-colors">System Architecture</span>
+                  <span className="text-sm font-bold text-neutral-700 dark:text-neutral-300 group-hover/skill:text-black dark:group-hover/skill:text-white transition-colors">System Architecture</span>
                   <span className="text-xs font-mono text-accent-blue">95%</span>
                 </div>
-                <div className="w-full bg-neutral-900/50 rounded-full h-1.5 overflow-hidden">
+                <div className="w-full bg-neutral-200 dark:bg-neutral-900/50 rounded-full h-1.5 overflow-hidden">
                   <motion.div 
                     initial={{ width: 0 }}
                     whileInView={{ width: '95%' }}
@@ -121,10 +121,10 @@ export default function ExperienceBento() {
 
               <div className="group/skill">
                 <div className="flex justify-between items-center mb-2">
-                  <span className="text-sm font-bold text-neutral-300 group-hover/skill:text-white transition-colors">C / C++</span>
+                  <span className="text-sm font-bold text-neutral-700 dark:text-neutral-300 group-hover/skill:text-black dark:group-hover/skill:text-white transition-colors">C / C++</span>
                   <span className="text-xs font-mono text-accent-purple">90%</span>
                 </div>
-                <div className="w-full bg-neutral-900/50 rounded-full h-1.5 overflow-hidden">
+                <div className="w-full bg-neutral-200 dark:bg-neutral-900/50 rounded-full h-1.5 overflow-hidden">
                   <motion.div 
                     initial={{ width: 0 }}
                     whileInView={{ width: '90%' }}
@@ -137,10 +137,10 @@ export default function ExperienceBento() {
 
               <div className="group/skill">
                 <div className="flex justify-between items-center mb-2">
-                  <span className="text-sm font-bold text-neutral-300 group-hover/skill:text-white transition-colors">React & Node.js</span>
+                  <span className="text-sm font-bold text-neutral-700 dark:text-neutral-300 group-hover/skill:text-black dark:group-hover/skill:text-white transition-colors">React & Node.js</span>
                   <span className="text-xs font-mono text-accent-green">85%</span>
                 </div>
-                <div className="w-full bg-neutral-900/50 rounded-full h-1.5 overflow-hidden">
+                <div className="w-full bg-neutral-200 dark:bg-neutral-900/50 rounded-full h-1.5 overflow-hidden">
                   <motion.div 
                     initial={{ width: 0 }}
                     whileInView={{ width: '85%' }}
@@ -153,10 +153,10 @@ export default function ExperienceBento() {
 
               <div className="group/skill">
                 <div className="flex justify-between items-center mb-2">
-                  <span className="text-sm font-bold text-neutral-300 group-hover/skill:text-white transition-colors">Docker & DevOps</span>
+                  <span className="text-sm font-bold text-neutral-700 dark:text-neutral-300 group-hover/skill:text-black dark:group-hover/skill:text-white transition-colors">Docker & DevOps</span>
                   <span className="text-xs font-mono text-accent-red">80%</span>
                 </div>
-                <div className="w-full bg-neutral-900/50 rounded-full h-1.5 overflow-hidden">
+                <div className="w-full bg-neutral-200 dark:bg-neutral-900/50 rounded-full h-1.5 overflow-hidden">
                   <motion.div 
                     initial={{ width: 0 }}
                     whileInView={{ width: '80%' }}
@@ -175,25 +175,25 @@ export default function ExperienceBento() {
             <h3 className="text-sm font-mono text-neutral-500 uppercase tracking-widest mb-6">Tech Stack</h3>
             <div className="w-full h-full flex flex-col justify-center overflow-hidden relative">
               {/* Fade masks for marquee */}
-              <div className="absolute inset-y-0 left-0 w-8 bg-gradient-to-r from-[#080808] to-transparent z-10" />
-              <div className="absolute inset-y-0 right-0 w-8 bg-gradient-to-l from-[#080808] to-transparent z-10" />
+              <div className="absolute inset-y-0 left-0 w-8 bg-gradient-to-r from-white dark:from-[#080808] to-transparent z-10" />
+              <div className="absolute inset-y-0 right-0 w-8 bg-gradient-to-l from-white dark:from-[#080808] to-transparent z-10" />
               
               <div className="flex gap-4 animate-[marquee_20s_linear_infinite] w-max">
                 {[...Array(2)].map((_, i) => (
                   <React.Fragment key={i}>
-                    <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 text-xs font-mono text-neutral-300">
+                    <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-neutral-100 dark:bg-white/5 border border-neutral-300 dark:border-white/10 text-xs font-mono text-neutral-700 dark:text-neutral-300 transition-colors duration-300">
                       <Layout size={14} /> React
                     </div>
-                    <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 text-xs font-mono text-neutral-300">
+                    <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-neutral-100 dark:bg-white/5 border border-neutral-300 dark:border-white/10 text-xs font-mono text-neutral-700 dark:text-neutral-300 transition-colors duration-300">
                       <Server size={14} /> NestJS
                     </div>
-                    <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 text-xs font-mono text-neutral-300">
+                    <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-neutral-100 dark:bg-white/5 border border-neutral-300 dark:border-white/10 text-xs font-mono text-neutral-700 dark:text-neutral-300 transition-colors duration-300">
                       <Code2 size={14} /> TypeScript
                     </div>
-                    <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 text-xs font-mono text-neutral-300">
+                    <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-neutral-100 dark:bg-white/5 border border-neutral-300 dark:border-white/10 text-xs font-mono text-neutral-700 dark:text-neutral-300 transition-colors duration-300">
                       <Cpu size={14} /> C/C++
                     </div>
-                    <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 text-xs font-mono text-neutral-300">
+                    <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-neutral-100 dark:bg-white/5 border border-neutral-300 dark:border-white/10 text-xs font-mono text-neutral-700 dark:text-neutral-300 transition-colors duration-300">
                       <Database size={14} /> Docker
                     </div>
                   </React.Fragment>
@@ -211,8 +211,8 @@ export default function ExperienceBento() {
                 </div>
                 
                 <div className="flex-1 flex flex-col justify-end">
-                  <div className="text-3xl font-clash font-black text-white mb-2">1.2k+</div>
-                  <div className="text-xs text-neutral-400">Contributions last year</div>
+                  <div className="text-3xl font-clash font-black text-black dark:text-white mb-2 transition-colors duration-300">1.2k+</div>
+                  <div className="text-xs text-neutral-500 dark:text-neutral-400">Contributions last year</div>
                   
                   {/* Abstract Graph */}
                   <div className="grid grid-cols-7 gap-1.5 mt-4">
@@ -221,7 +221,7 @@ export default function ExperienceBento() {
                       return (
                         <div 
                           key={i} 
-                          className={`w-full aspect-square rounded-sm ${isActive ? 'bg-accent-green/60' : 'bg-neutral-800'}`}
+                          className={`w-full aspect-square rounded-sm ${isActive ? 'bg-accent-green/60' : 'bg-neutral-200 dark:bg-neutral-800'}`}
                         />
                       )
                     })}
