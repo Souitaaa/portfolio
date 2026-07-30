@@ -1,9 +1,10 @@
-import React, { useRef } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import React, { useRef, useState } from 'react';
+import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
 import { ArrowUpRight } from 'lucide-react';
 
 export default function AnimatedFooter() {
   const footerRef = useRef(null);
+  const [isContactOpen, setIsContactOpen] = useState(false);
   const { scrollYProgress } = useScroll({
     target: footerRef,
     offset: ["start end", "end end"]
@@ -69,13 +70,60 @@ export default function AnimatedFooter() {
           </div>
         </div>
 
-        <div className="md:col-span-3 lg:col-span-2 flex justify-start md:justify-end">
-          <a href="mailto:contact@example.com" className="group flex items-center gap-4 cursor-pointer pointer-events-auto h-fit">
+        <div className="md:col-span-3 lg:col-span-2 flex flex-col items-start md:items-end">
+          <button 
+            onClick={() => setIsContactOpen(!isContactOpen)}
+            className="group flex items-center gap-4 cursor-pointer pointer-events-auto h-fit"
+          >
             <span className="text-white text-xl font-medium group-hover:text-zinc-300 transition-colors">Contact me</span>
-            <div className="w-12 h-12 rounded-full bg-[#FFB800] text-black flex items-center justify-center group-hover:scale-110 transition-transform duration-300 shadow-[0_0_20px_rgba(255,184,0,0.3)]">
+            <div className={`w-12 h-12 rounded-full bg-[#FFB800] text-black flex items-center justify-center shadow-[0_0_20px_rgba(255,184,0,0.3)] transition-transform duration-300 ${isContactOpen ? 'rotate-90' : 'group-hover:scale-110'}`}>
               <ArrowUpRight size={24} strokeWidth={2.5} />
             </div>
-          </a>
+          </button>
+
+          <AnimatePresence>
+            {isContactOpen && (
+              <motion.div
+                initial={{ height: 0, opacity: 0 }}
+                animate={{ height: "auto", opacity: 1 }}
+                exit={{ height: 0, opacity: 0 }}
+                transition={{ duration: 0.4, ease: "easeInOut" }}
+                className="overflow-hidden w-full"
+              >
+                <div className="flex flex-col gap-4 mt-6 w-full min-w-[240px] md:min-w-[300px]">
+                  <div className="flex flex-col gap-1.5">
+                    <input 
+                      type="text" 
+                      placeholder="Name" 
+                      className="w-full bg-transparent border-b border-zinc-800 text-white placeholder-zinc-600 focus:border-[#0055FF] outline-none pb-2 text-[13px] font-normal transition-colors"
+                    />
+                  </div>
+                  <div className="flex flex-col gap-1.5">
+                    <input 
+                      type="email" 
+                      placeholder="Email" 
+                      className="w-full bg-transparent border-b border-zinc-800 text-white placeholder-zinc-600 focus:border-[#0055FF] outline-none pb-2 text-[13px] font-normal transition-colors"
+                    />
+                  </div>
+                  <div className="flex flex-col gap-1.5">
+                    <textarea 
+                      placeholder="Message" 
+                      rows={3}
+                      className="w-full bg-transparent border-b border-zinc-800 text-white placeholder-zinc-600 focus:border-[#0055FF] outline-none pb-2 text-[13px] font-normal transition-colors resize-none"
+                    />
+                  </div>
+                  <button className="mt-2 w-full py-2.5 bg-white text-black text-[13px] font-semibold rounded hover:bg-[#0055FF] hover:text-white transition-all duration-300">
+                    Send Message
+                  </button>
+                  <div className="flex items-center justify-between mt-4 pt-4 border-t border-zinc-900 w-full">
+                    <a href="#" className="text-[11px] text-zinc-500 hover:text-white transition-colors">LinkedIn</a>
+                    <a href="#" className="text-[11px] text-zinc-500 hover:text-white transition-colors">Instagram</a>
+                    <a href="#" className="text-[11px] text-zinc-500 hover:text-white transition-colors">Email</a>
+                  </div>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
       </motion.div>
 
