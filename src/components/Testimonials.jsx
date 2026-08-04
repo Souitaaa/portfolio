@@ -30,11 +30,34 @@ const testimonials = [
     company: "",
     quote: "An outstanding developer with a keen eye for detail. Sharaf's expertise in C++ and Node.js makes him an invaluable asset. He consistently writes elegant, maintainable code and is always eager to learn new technologies.",
     image: "/images/montassir.jpg"
+  },
+  {
+    name: "Mehdi Zzine",
+    role: "Inmate",
+    company: "",
+    quote: "Sharaf brings a level of dedication and technical acumen that is hard to find. His code is always robust, and his problem-solving skills make him a fantastic asset to any engineering team.",
+    image: "/images/mehdi.jpg"
+  },
+  {
+    name: "Mohammed Amine Manaoui",
+    role: "Inmate",
+    company: "",
+    quote: "A phenomenal developer who truly understands modern web architectures. Sharaf's work is always scalable and secure, making him an absolute pleasure to collaborate with on complex projects.",
+    image: "/images/mohammed.jpg"
+  },
+  {
+    name: "Ayoub Abdenour",
+    role: "Inmate",
+    company: "",
+    quote: "Sharaf is a powerhouse of productivity and technical knowledge. His ability to quickly adapt to new challenges and deliver flawless solutions consistently impresses everyone he works with.",
+    image: "/images/ayoub2.jpg"
   }
 ];
 
 export default function Testimonials() {
   const [selectedId, setSelectedId] = useState(null);
+
+  const displayTestimonials = [...testimonials, ...testimonials];
 
   return (
     <section className="w-full py-16 px-6 md:px-12 select-none border-t border-neutral-200 dark:border-neutral-900/60 mt-12 transition-colors duration-300">
@@ -52,18 +75,19 @@ export default function Testimonials() {
         </p>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
-        {testimonials.map((t, index) => (
-          <motion.div
-            layoutId={`card-${index}`}
+      <div className="overflow-hidden relative w-full -mx-6 md:-mx-12 px-6 md:px-12 py-4">
+        {/* Left and Right Fade */}
+        <div className="absolute top-0 left-0 w-12 md:w-32 h-full bg-gradient-to-r from-neutral-50 dark:from-[#0a0a0a] to-transparent z-20 pointer-events-none" />
+        <div className="absolute top-0 right-0 w-12 md:w-32 h-full bg-gradient-to-l from-neutral-50 dark:from-[#0a0a0a] to-transparent z-20 pointer-events-none" />
+
+        <div className="flex w-max animate-marquee hover:[animation-play-state:paused] gap-6 lg:gap-8">
+          {displayTestimonials.map((t, index) => (
+            <motion.div
+              layoutId={`card-${index}`}
             key={index}
             onClick={() => setSelectedId(index)}
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-50px" }}
-            transition={{ duration: 0.6, delay: index * 0.1 }}
             whileHover={{ scale: 1.05 }}
-            className="relative flex flex-col justify-between bg-white dark:bg-background-card border border-neutral-200 dark:border-neutral-900 hover:border-neutral-300 dark:hover:border-neutral-800 p-6 sm:p-8 rounded-3xl transition-all duration-300 shadow-sm dark:shadow-none hover:shadow-2xl dark:hover:shadow-[0_12px_40px_rgba(255,255,255,0.08)] z-0 hover:z-10 cursor-pointer"
+            className="relative flex flex-col justify-between bg-white dark:bg-background-card border border-neutral-200 dark:border-neutral-900 hover:border-neutral-300 dark:hover:border-neutral-800 p-6 sm:p-8 rounded-3xl transition-all duration-300 shadow-sm dark:shadow-none hover:shadow-2xl dark:hover:shadow-[0_12px_40px_rgba(255,255,255,0.08)] z-0 hover:z-10 cursor-pointer w-[320px] sm:w-[400px] shrink-0"
           >
             <div className="absolute top-6 right-8 text-neutral-200/50 dark:text-neutral-800/50 pointer-events-none transition-colors duration-300 z-0">
               <Quote size={60} strokeWidth={1} />
@@ -93,6 +117,7 @@ export default function Testimonials() {
           </motion.div>
         ))}
       </div>
+      </div>
 
       <AnimatePresence>
         {selectedId !== null && (
@@ -117,17 +142,17 @@ export default function Testimonials() {
                 </button>
 
                 <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6 mb-8">
-                  {testimonials[selectedId].image ? (
-                    <img src={testimonials[selectedId].image} alt={testimonials[selectedId].name} className="w-32 h-32 sm:w-40 sm:h-40 rounded-2xl object-cover border border-neutral-200 dark:border-neutral-800 shrink-0 shadow-lg" />
+                  {displayTestimonials[selectedId].image ? (
+                    <img src={displayTestimonials[selectedId].image} alt={displayTestimonials[selectedId].name} className="w-32 h-32 sm:w-40 sm:h-40 rounded-2xl object-cover border border-neutral-200 dark:border-neutral-800 shrink-0 shadow-lg" />
                   ) : (
                     <div className="w-32 h-32 sm:w-40 sm:h-40 rounded-2xl bg-neutral-100 dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 flex items-center justify-center font-clash font-bold text-4xl text-neutral-600 dark:text-neutral-300 shrink-0 shadow-lg">
-                      {testimonials[selectedId].initials}
+                      {displayTestimonials[selectedId].initials}
                     </div>
                   )}
                   <div className="text-center sm:text-left pt-2 sm:pt-4">
-                    <h3 className="text-2xl sm:text-3xl font-bold font-clash text-neutral-800 dark:text-neutral-200">{testimonials[selectedId].name}</h3>
+                    <h3 className="text-2xl sm:text-3xl font-bold font-clash text-neutral-800 dark:text-neutral-200">{displayTestimonials[selectedId].name}</h3>
                     <p className="text-sm text-neutral-500 font-mono mt-2 uppercase tracking-wider">
-                      {testimonials[selectedId].role}{testimonials[selectedId].company ? ` • ${testimonials[selectedId].company}` : ''}
+                      {displayTestimonials[selectedId].role}{displayTestimonials[selectedId].company ? ` • ${displayTestimonials[selectedId].company}` : ''}
                     </p>
                   </div>
                 </div>
@@ -137,7 +162,7 @@ export default function Testimonials() {
                     <Quote size={80} strokeWidth={1} />
                   </div>
                   <p className="text-neutral-600 dark:text-neutral-300 text-lg sm:text-xl leading-relaxed font-satoshi italic relative z-10">
-                    "{testimonials[selectedId].quote}"
+                    "{displayTestimonials[selectedId].quote}"
                   </p>
                 </div>
               </motion.div>
