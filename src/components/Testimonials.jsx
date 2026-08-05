@@ -51,6 +51,22 @@ const testimonials = [
     company: "",
     quote: "Sharaf is a powerhouse of productivity and technical knowledge. His ability to quickly adapt to new challenges and deliver flawless solutions consistently impresses everyone he works with.",
     image: "/images/ayoub2.jpg"
+  },
+  {
+    name: "Bouchra Chikhaoui",
+    role: "Inmate",
+    company: "",
+    quote: "Sharaf is an exceptional developer who brings both technical brilliance and a great collaborative spirit to the team. His work is always top-notch.",
+    image: "/images/bouchra.jpg",
+    initials: "BC"
+  },
+  {
+    name: "Saoussan Alilech",
+    role: "Inmate",
+    company: "",
+    quote: "Working with Sharaf is an absolute pleasure. He has a unique talent for solving complex problems efficiently and always delivers high-quality, scalable solutions.",
+    image: "/images/saoussan.jpg",
+    initials: "SA"
   }
 ];
 
