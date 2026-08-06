@@ -11,6 +11,29 @@ const testimonials = [
     image: "/images/ayyoub.jpg"
   },
   {
+    name: "Hajar Charouk",
+    role: "Inmate",
+    company: "",
+    quote: "Sharaf is an incredible collaborator. His ability to understand requirements and translate them into robust, performant code makes him a true asset to the team.",
+    image: "/images/hajar.png",
+    initials: "HC"
+  },
+  {
+    name: "Aya Hormat-allah",
+    role: "Inmate",
+    company: "",
+    quote: "A deeply analytical mind with a proactive approach. Sharaf brings fresh perspectives and technically sound solutions to complex engineering challenges.",
+    image: "/images/aya.png",
+    initials: "AH"
+  },
+  {
+    name: "Ayoub Abdenour",
+    role: "Inmate",
+    company: "",
+    quote: "Sharaf is a powerhouse of productivity and technical knowledge. His ability to quickly adapt to new challenges and deliver flawless solutions consistently impresses everyone he works with.",
+    image: "/images/ayoub2.jpg"
+  },
+  {
     name: "Mohamed Amine Amir",
     role: "Inmate",
     company: "",
@@ -25,6 +48,14 @@ const testimonials = [
     image: "/images/boumlik.jpg"
   },
   {
+    name: "Halima El Maqass",
+    role: "Inmate",
+    company: "",
+    quote: "Sharaf's dedication to quality and teamwork is unmatched. His ability to deliver fast and reliable solutions makes him a valuable addition to any project.",
+    image: "/images/halima.jpeg",
+    initials: "HEM"
+  },
+  {
     name: "Montassir Bouifraden",
     role: "Inmate",
     company: "",
@@ -32,25 +63,19 @@ const testimonials = [
     image: "/images/montassir.jpg"
   },
   {
+    name: "Saoussan Alilech",
+    role: "Inmate",
+    company: "",
+    quote: "Working with Sharaf is an absolute pleasure. He has a unique talent for solving complex problems efficiently and always delivers high-quality, scalable solutions.",
+    image: "/images/saoussan.jpg",
+    initials: "SA"
+  },
+  {
     name: "Mehdi Zzine",
     role: "Inmate",
     company: "",
     quote: "Sharaf brings a level of dedication and technical acumen that is hard to find. His code is always robust, and his problem-solving skills make him a fantastic asset to any engineering team.",
     image: "/images/mehdi.jpg"
-  },
-  {
-    name: "Mohammed Amine Manaoui",
-    role: "Inmate",
-    company: "",
-    quote: "A phenomenal developer who truly understands modern web architectures. Sharaf's work is always scalable and secure, making him an absolute pleasure to collaborate with on complex projects.",
-    image: "/images/mohammed.jpg"
-  },
-  {
-    name: "Ayoub Abdenour",
-    role: "Inmate",
-    company: "",
-    quote: "Sharaf is a powerhouse of productivity and technical knowledge. His ability to quickly adapt to new challenges and deliver flawless solutions consistently impresses everyone he works with.",
-    image: "/images/ayoub2.jpg"
   },
   {
     name: "Bouchra Chikhaoui",
@@ -61,13 +86,12 @@ const testimonials = [
     initials: "BC"
   },
   {
-    name: "Saoussan Alilech",
+    name: "Mohammed Amine Manaoui",
     role: "Inmate",
     company: "",
-    quote: "Working with Sharaf is an absolute pleasure. He has a unique talent for solving complex problems efficiently and always delivers high-quality, scalable solutions.",
-    image: "/images/saoussan.jpg",
-    initials: "SA"
-  }
+    quote: "A phenomenal developer who truly understands modern web architectures. Sharaf's work is always scalable and secure, making him an absolute pleasure to collaborate with on complex projects.",
+    image: "/images/mohammed.jpg"
+  },
 ];
 
 export default function Testimonials() {
