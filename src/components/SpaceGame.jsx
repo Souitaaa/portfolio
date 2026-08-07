@@ -17,6 +17,8 @@ export default function SpaceGame() {
     return () => window.removeEventListener('theme-change', handleThemeChange);
   }, []);
 
+  const sectionRef = useRef(null);
+
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -299,15 +301,29 @@ export default function SpaceGame() {
       }
     };
 
+    let isVisible = false;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        isVisible = entry.isIntersecting;
+      },
+      { threshold: 0.1 }
+    );
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
     const loop = (timestamp) => {
       const dt = (timestamp - lastTime) / 1000;
       lastTime = timestamp;
 
-      // Cap dt to prevent huge jumps if tab is inactive
-      if (dt < 0.1) {
-        update(dt);
+      // Only compute and draw if visible
+      if (isVisible) {
+        // Cap dt to prevent huge jumps if tab is inactive
+        if (dt < 0.1) {
+          update(dt);
+        }
+        draw();
       }
-      draw();
 
       animationFrameId = requestAnimationFrame(loop);
     };
@@ -318,6 +334,7 @@ export default function SpaceGame() {
     // Cleanup
     return () => {
       cancelAnimationFrame(animationFrameId);
+      if (sectionRef.current) observer.unobserve(sectionRef.current);
       window.removeEventListener('resize', resizeCanvas);
       window.removeEventListener('keydown', handleKeyDown);
       window.removeEventListener('keyup', handleKeyUp);
@@ -332,7 +349,7 @@ export default function SpaceGame() {
   };
 
   return (
-    <section className="w-full bg-neutral-50 dark:bg-black py-16 px-6 md:px-12 relative flex flex-col items-center select-none font-mono transition-colors duration-300">
+    <section ref={sectionRef} className="w-full bg-neutral-50 dark:bg-black py-16 px-6 md:px-12 relative flex flex-col items-center select-none font-mono transition-colors duration-300">
       <div className="w-full max-w-5xl mb-6 flex justify-between items-end border-b border-neutral-200 dark:border-neutral-900 pb-4 transition-colors duration-300">
         <div>
           <span className="text-accent-blue font-bold text-xs uppercase tracking-[0.2em] block mb-1">
