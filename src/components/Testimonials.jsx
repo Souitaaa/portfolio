@@ -1,8 +1,17 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Quote, Sparkles, X } from 'lucide-react';
+import TestimonialsHeader from './TestimonialsHeader';
 
 const testimonials = [
+  {
+    name: "Assiya Laaouni",
+    role: "Inmate",
+    company: "",
+    quote: "Working with Sharaf is an absolute pleasure. His attention to detail, modern design sensibilities, and technical expertise make him a standout developer.",
+    image: "/images/assiya.jpg",
+    initials: "AL"
+  },
   {
     name: "Ayyoub Gaougaou",
     role: "Inmate",
@@ -101,20 +110,7 @@ export default function Testimonials() {
 
   return (
     <section className="w-full py-16 px-6 md:px-12 select-none border-t border-neutral-200 dark:border-neutral-900/60 mt-12 transition-colors duration-300">
-      <div className="flex flex-col md:flex-row md:items-end justify-between mb-12">
-        <div>
-          <span className="text-accent-red font-mono text-xs md:text-sm font-bold uppercase tracking-widest flex items-center gap-1.5">
-            <Sparkles size={12} /> COOLEST PEOPLE I WORKED WITH
-          </span>
-          <h2 className="text-4xl md:text-6xl font-black font-clash mt-2 tracking-tight text-black dark:text-white transition-colors duration-300">
-            RECOMMENDATIONS.
-          </h2>
-        </div>
-        <p className="text-neutral-500 text-xs md:text-sm mt-4 md:mt-0 font-mono">
-          [ {testimonials.length} TESTIMONIALS ]
-        </p>
-      </div>
-
+      <TestimonialsHeader count={testimonials.length} />
       <div className="overflow-hidden relative w-full -mx-6 md:-mx-12 px-6 md:px-12 py-4">
         {/* Left and Right Fade */}
         <div className="absolute top-0 left-0 w-12 md:w-32 h-full bg-gradient-to-r from-neutral-50 dark:from-[#0a0a0a] to-transparent z-20 pointer-events-none" />
@@ -127,8 +123,14 @@ export default function Testimonials() {
             key={index}
             onClick={() => setSelectedId(index)}
             whileHover={{ scale: 1.05 }}
-            className="relative flex flex-col justify-between bg-white dark:bg-background-card border border-neutral-200 dark:border-neutral-900 hover:border-neutral-300 dark:hover:border-neutral-800 p-6 sm:p-8 rounded-3xl transition-all duration-300 shadow-sm dark:shadow-none hover:shadow-2xl dark:hover:shadow-[0_12px_40px_rgba(255,255,255,0.08)] z-0 hover:z-10 cursor-pointer w-[320px] sm:w-[400px] shrink-0"
+            className="group relative flex flex-col justify-between p-6 sm:p-8 rounded-3xl transition-all duration-500 z-0 hover:z-10 cursor-pointer w-[320px] sm:w-[400px] shrink-0"
           >
+            {/* Monochrome Glow Background */}
+            <div className="absolute inset-0 rounded-3xl bg-gradient-to-tr from-neutral-400 via-neutral-300 to-neutral-200 dark:from-neutral-600 dark:via-neutral-500 dark:to-neutral-400 opacity-0 group-hover:opacity-30 dark:group-hover:opacity-40 blur-2xl transition-opacity duration-500 -z-20" />
+            
+            {/* Glassmorphism Card */}
+            <div className="absolute inset-0 rounded-3xl bg-white/60 dark:bg-background-card/50 backdrop-blur-xl border border-neutral-200/50 dark:border-neutral-800/50 group-hover:border-neutral-300 dark:group-hover:border-neutral-700 transition-colors duration-500 -z-10" />
+
             <div className="absolute top-6 right-8 text-neutral-200/50 dark:text-neutral-800/50 pointer-events-none transition-colors duration-300 z-0">
               <Quote size={60} strokeWidth={1} />
             </div>
@@ -139,7 +141,7 @@ export default function Testimonials() {
               </p>
             </div>
 
-            <div className="flex items-center gap-4 mt-8 border-t border-neutral-200 dark:border-neutral-900/60 pt-6 transition-colors duration-300">
+            <div className="flex items-center gap-4 mt-8 border-t border-neutral-200/50 dark:border-neutral-800/50 pt-6 transition-colors duration-300 relative z-10">
               {t.image ? (
                 <img src={t.image} alt={t.name} className="w-16 h-16 rounded-full object-cover border border-neutral-200 dark:border-neutral-800 shrink-0" />
               ) : (

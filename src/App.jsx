@@ -3,15 +3,27 @@ import Hero from './components/Hero';
 import Marquee from './components/Marquee';
 import LatestWork from './components/LatestWork';
 import ExperienceBento from './components/ExperienceBento';
+import TechStackOrbit from './components/TechStackOrbit';
 import Testimonials from './components/Testimonials';
 import SpaceGame from './components/SpaceGame';
-import ResumeCTA from './components/ResumeCTA';
 import Footer from './components/Footer';
 import CustomCursor from './components/CustomCursor';
 import ThemeToggle from './components/ThemeToggle';
-import { useEffect } from 'react';
+import LiquidBackground from './components/LiquidBackground';
+import Loader from './components/Loader';
+import { AnimatePresence } from 'framer-motion';
+import { useEffect, useState } from 'react';
 
 export default function App() {
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    // Simulate loading time
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 1500);
+    return () => clearTimeout(timer);
+  }, []);
 useEffect(() => {
     window.scrollTo({
       top: 0,
@@ -24,11 +36,15 @@ useEffect(() => {
     }
   }, []);
   return (
-    <div className="min-h-screen bg-white text-black dark:bg-black dark:text-white flex flex-col font-sans transition-colors duration-300">
+    <div className="min-h-screen text-black dark:text-white flex flex-col font-sans transition-colors duration-300 relative">
+      <AnimatePresence>
+        {isLoading && <Loader />}
+      </AnimatePresence>
+      <LiquidBackground />
       <CustomCursor />
       <ThemeToggle />
       {/* Main Scrollable Content */}
-      <main className="flex-1 flex flex-col min-w-0 bg-white dark:bg-black overflow-x-clip cursor-none [&_*]:cursor-none transition-colors duration-300">
+      <main className="flex-1 flex flex-col min-w-0 overflow-x-clip cursor-none [&_*]:cursor-none relative z-10">
         {/* Hero Header */}
         <Hero />
 
@@ -47,10 +63,7 @@ useEffect(() => {
         {/* Space Game */}
         <SpaceGame />
 
-        {/* Floating Call to Action */}
-        <ResumeCTA />
-
-        {/* Premium Dark Theme CTA Footer */}
+        {/* Unified Bottom Section (Contact, Resume, Socials) */}
         <Footer />
       </main>
     </div>

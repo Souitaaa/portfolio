@@ -32,7 +32,7 @@ export default function AnimatedFooter() {
   const textClass = "font-sans font-black lowercase text-[18vw] leading-none text-[#0055FF] tracking-tighter inline-block";
 
   return (
-    <footer ref={footerRef} className="w-full bg-[#0a0a0a] pt-24 pb-12 px-10 flex flex-col relative border-t border-zinc-900 overflow-hidden">
+    <footer ref={footerRef} className="w-full bg-white/10 dark:bg-black/40 backdrop-blur-xl pt-24 pb-12 px-10 flex flex-col relative border-t border-neutral-200/50 dark:border-zinc-800/50 overflow-hidden">
       {/* Top Grid */}
       <motion.div 
         initial={{ opacity: 0, y: 30 }}

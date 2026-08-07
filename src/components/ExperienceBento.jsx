@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, useAnimation } from 'framer-motion';
 import { Terminal as TerminalIcon, GitCommit, Code2, Database, Layout, Server, Cpu } from 'lucide-react';
+import TechStackOrbit from './TechStackOrbit';
 
 const TypewriterText = ({ text }) => {
   const [displayText, setDisplayText] = useState('');
@@ -171,34 +172,14 @@ export default function ExperienceBento() {
           </BentoCard>
 
           {/* 3. The Tech Orbit Card (Square) */}
-          <BentoCard delay={0.3} className="md:col-span-2 lg:col-span-1 row-span-1">
-            <h3 className="text-sm font-mono text-neutral-500 uppercase tracking-widest mb-6">Tech Stack</h3>
-            <div className="w-full h-full flex flex-col justify-center overflow-hidden relative">
-              {/* Fade masks for marquee */}
-              <div className="absolute inset-y-0 left-0 w-8 bg-gradient-to-r from-white dark:from-[#080808] to-transparent z-10" />
-              <div className="absolute inset-y-0 right-0 w-8 bg-gradient-to-l from-white dark:from-[#080808] to-transparent z-10" />
-              
-              <div className="flex gap-4 animate-[marquee_20s_linear_infinite] w-max">
-                {[...Array(2)].map((_, i) => (
-                  <React.Fragment key={i}>
-                    <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-neutral-100 dark:bg-white/5 border border-neutral-300 dark:border-white/10 text-xs font-mono text-neutral-700 dark:text-neutral-300 transition-colors duration-300">
-                      <Layout size={14} /> React
-                    </div>
-                    <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-neutral-100 dark:bg-white/5 border border-neutral-300 dark:border-white/10 text-xs font-mono text-neutral-700 dark:text-neutral-300 transition-colors duration-300">
-                      <Server size={14} /> NestJS
-                    </div>
-                    <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-neutral-100 dark:bg-white/5 border border-neutral-300 dark:border-white/10 text-xs font-mono text-neutral-700 dark:text-neutral-300 transition-colors duration-300">
-                      <Code2 size={14} /> TypeScript
-                    </div>
-                    <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-neutral-100 dark:bg-white/5 border border-neutral-300 dark:border-white/10 text-xs font-mono text-neutral-700 dark:text-neutral-300 transition-colors duration-300">
-                      <Cpu size={14} /> C/C++
-                    </div>
-                    <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-neutral-100 dark:bg-white/5 border border-neutral-300 dark:border-white/10 text-xs font-mono text-neutral-700 dark:text-neutral-300 transition-colors duration-300">
-                      <Database size={14} /> Docker
-                    </div>
-                  </React.Fragment>
-                ))}
-              </div>
+          <BentoCard delay={0.3} className="md:col-span-2 lg:col-span-1 row-span-1 p-0 flex flex-col items-center justify-center relative overflow-hidden group/orbitcard !rounded-full aspect-square mx-auto w-full max-w-[320px]">
+            <div className="absolute top-8 left-1/2 -translate-x-1/2 z-20 pointer-events-none opacity-0 group-hover/orbitcard:opacity-100 transition-opacity duration-300">
+              <h3 className="text-xs font-mono font-bold text-black dark:text-white uppercase tracking-widest bg-white/80 dark:bg-black/50 px-3 py-1 rounded-full backdrop-blur-md border border-neutral-200 dark:border-white/10 shadow-sm whitespace-nowrap">
+                Tech Stack
+              </h3>
+            </div>
+            <div className="absolute inset-0 w-full h-full flex items-center justify-center scale-150 opacity-80 group-hover/orbitcard:opacity-100 transition-opacity duration-500">
+              <TechStackOrbit />
             </div>
           </BentoCard>
 

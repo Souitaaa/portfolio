@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useRef } from 'react';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import { Terminal, Code, Play, Cpu, Layers, ExternalLink, Sparkles, Users, LayoutDashboard } from 'lucide-react';
 import IrcPreview from './previews/IrcPreview';
 import Cub3dPreview from './previews/Cub3dPreview';
@@ -15,8 +16,8 @@ const projects = [
     tags: ["C++98", "Network"],
     date: "2026",
     github: "https://github.com/Souitaaa/ft_irc.git",
-    color: "from-accent-red/20 via-accent-red/5 to-transparent",
-    glow: "shadow-[0_0_40px_rgba(255,70,46,0.15)] border-accent-red/40",
+    color: "from-neutral-400/20 via-neutral-400/5 to-transparent",
+    glow: "shadow-[0_0_40px_rgba(255,255,255,0.1)] border-white/20",
     border: "border-neutral-800",
     icon: Terminal,
     previewType: "terminal",
@@ -28,8 +29,8 @@ const projects = [
     tags: ["C", "Graphics"],
     date: "2025",
     github: "https://github.com/Souitaaa/Cub3d.git",
-    color: "from-accent-purple/20 via-accent-purple/5 to-transparent",
-    glow: "shadow-[0_0_40px_rgba(114,99,230,0.15)] border-accent-purple/40",
+    color: "from-neutral-500/20 via-neutral-500/5 to-transparent",
+    glow: "shadow-[0_0_40px_rgba(255,255,255,0.1)] border-white/20",
     border: "border-neutral-800",
     icon: Code,
     previewType: "graphics",
@@ -41,8 +42,8 @@ const projects = [
     tags: ["C", "Game Dev"],
     date: "2025",
     github: "https://github.com/Souitaaa/so_long.git",
-    color: "from-accent-green/20 via-accent-green/5 to-transparent",
-    glow: "shadow-[0_0_40px_rgba(133,194,7,0.15)] border-accent-green/40",
+    color: "from-neutral-600/20 via-neutral-600/5 to-transparent",
+    glow: "shadow-[0_0_40px_rgba(255,255,255,0.1)] border-white/20",
     border: "border-neutral-800",
     icon: Play,
     previewType: "game",
@@ -54,8 +55,8 @@ const projects = [
     tags: ["C", "POSIX"],
     date: "2025",
     github: "https://github.com/Souitaaa/minishell.git",
-    color: "from-accent-blue/20 via-accent-blue/5 to-transparent",
-    glow: "shadow-[0_0_40px_rgba(0,157,255,0.15)] border-accent-blue/40",
+    color: "from-neutral-300/20 via-neutral-300/5 to-transparent",
+    glow: "shadow-[0_0_40px_rgba(255,255,255,0.1)] border-white/20",
     border: "border-neutral-800",
     icon: Cpu,
     previewType: "terminal",
@@ -68,7 +69,7 @@ const projects = [
     date: "2026",
     github: "https://github.com/Souitaaa/inception.git",
     color: "from-neutral-700/20 via-neutral-700/5 to-transparent",
-    glow: "shadow-[0_0_40px_rgba(255,255,255,0.05)] border-white/20",
+    glow: "shadow-[0_0_40px_rgba(255,255,255,0.1)] border-white/20",
     border: "border-neutral-800",
     icon: Layers,
     previewType: "infrastructure",
@@ -80,8 +81,8 @@ const projects = [
     tags: ["C", "Concurrency"],
     date: "2025",
     github: "https://github.com/Souitaaa/Philosophers.git",
-    color: "from-orange-500/20 via-orange-500/5 to-transparent",
-    glow: "shadow-[0_0_40px_rgba(249,115,22,0.15)] border-orange-500/40",
+    color: "from-neutral-400/20 via-neutral-400/5 to-transparent",
+    glow: "shadow-[0_0_40px_rgba(255,255,255,0.1)] border-white/20",
     border: "border-neutral-800",
     icon: Users,
     previewType: "simulation",
@@ -93,8 +94,8 @@ const projects = [
     tags: ["React", "TypeScript", "Fullstack"],
     date: "2026",
     github: "https://github.com/solacode-SC/Mycel-Freelancer-CRM.git",
-    color: "from-emerald-500/20 via-emerald-500/5 to-transparent",
-    glow: "shadow-[0_0_40px_rgba(16,185,129,0.15)] border-emerald-500/40",
+    color: "from-neutral-500/20 via-neutral-500/5 to-transparent",
+    glow: "shadow-[0_0_40px_rgba(255,255,255,0.1)] border-white/20",
     border: "border-neutral-800",
     icon: LayoutDashboard,
     previewType: "dashboard",
@@ -128,7 +129,7 @@ const ProjectCard = ({ project, index }) => {
         <div className="w-full lg:w-1/2 h-1/2 lg:h-full flex flex-col justify-between p-6 md:p-10 border-b lg:border-b-0 lg:border-r border-neutral-200/50 dark:border-white/5 bg-white/40 dark:bg-black/40 backdrop-blur-sm transition-colors duration-300">
           <div>
             <div className="flex justify-between items-start mb-6">
-              <div className="p-3 md:p-4 bg-neutral-100/80 dark:bg-neutral-900/80 rounded-2xl border border-neutral-200 dark:border-neutral-800 text-neutral-600 dark:text-neutral-300 shadow-inner">
+              <div className="p-3 md:p-4 bg-white/40 dark:bg-background-inner/50 backdrop-blur-md rounded-2xl border border-neutral-200/50 dark:border-neutral-800/50 relative z-10 text-neutral-600 dark:text-neutral-300 shadow-inner">
                 <Icon size={28} />
               </div>
               <div className="text-neutral-500 dark:text-white/40 font-mono text-sm font-bold tracking-widest bg-neutral-100/50 dark:bg-white/5 px-3 py-1 rounded-full border border-neutral-200 dark:border-white/5">
@@ -177,24 +178,45 @@ const ProjectCard = ({ project, index }) => {
   );
 };
 
-const ProjectNavMenu = ({ projects }) => {
+const ProjectNavMenu = ({ projects, indicatorHeight }) => {
   return (
-    <div className="flex flex-col gap-6 w-full sticky top-[100px]">
-      {projects.map((project, index) => {
-        return (
-          <div 
-            key={index}
-            className="flex flex-col border-b border-neutral-200 dark:border-neutral-900/60 pb-6 last:border-0 relative opacity-60 hover:opacity-100 transition-opacity duration-300"
-          >
-            <h4 className="text-lg md:text-xl font-clash font-bold tracking-wide text-neutral-700 dark:text-neutral-300 hover:text-black dark:hover:text-white transition-colors duration-300">
-              {project.title}
-            </h4>
-            <p className="text-xs font-mono text-neutral-500 mt-1">
-              {project.tags.join(" • ")}
-            </p>
+    <div className="flex flex-col w-full sticky top-[100px]">
+      <div className="flex gap-6">
+        {/* Timeline Track */}
+        <div className="flex flex-col items-center shrink-0 w-[4px] relative">
+          <div className="w-full h-full bg-neutral-200/50 dark:bg-neutral-800/50 rounded-full relative overflow-hidden backdrop-blur-sm border border-neutral-300 dark:border-neutral-700/30">
+            <motion.div 
+              className="absolute top-0 left-0 w-full bg-black dark:bg-white rounded-full shadow-[0_0_12px_rgba(0,0,0,0.5)] dark:shadow-[0_0_15px_rgba(255,255,255,0.7)]"
+              style={{ height: indicatorHeight }}
+            />
           </div>
-        );
-      })}
+          {/* Subtle nodes indicating steps */}
+          <div className="absolute inset-0 flex flex-col justify-between pointer-events-none py-[5%]">
+             {projects.map((_, i) => (
+                <div key={i} className="w-1.5 h-1.5 rounded-full bg-white dark:bg-neutral-900 border border-neutral-400 dark:border-neutral-500 z-10 shadow-sm mx-auto -translate-x-[0.5px]" />
+             ))}
+          </div>
+        </div>
+
+        {/* Project List */}
+        <div className="flex flex-col gap-6 flex-1">
+          {projects.map((project, index) => {
+            return (
+              <div 
+                key={index}
+                className="flex flex-col border-b border-neutral-200 dark:border-neutral-900/60 pb-6 last:border-0 relative opacity-60 hover:opacity-100 transition-opacity duration-300"
+              >
+                <h4 className="text-lg md:text-xl font-clash font-bold tracking-wide text-neutral-700 dark:text-neutral-300 hover:text-black dark:hover:text-white transition-colors duration-300">
+                  {project.title}
+                </h4>
+                <p className="text-xs font-mono text-neutral-500 mt-1">
+                  {project.tags.join(" • ")}
+                </p>
+              </div>
+            );
+          })}
+        </div>
+      </div>
 
       {/* View All Projects Link */}
       <a 
@@ -213,6 +235,14 @@ const ProjectNavMenu = ({ projects }) => {
 };
 
 export default function LatestWork() {
+  const containerRef = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start center", "end end"]
+  });
+
+  const indicatorHeight = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
+
   return (
     <section className="relative w-full bg-white dark:bg-[#000000] py-24 md:py-32 font-inter select-none transition-colors duration-300">
       {/* Ambient backgrounds */}
@@ -220,8 +250,8 @@ export default function LatestWork() {
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#111111_1px,transparent_1px),linear-gradient(to_bottom,#111111_1px,transparent_1px)] bg-[size:40px_40px] opacity-50" />
         <div className="absolute inset-0 bg-[radial-gradient(#1c1c1c_1px,transparent_1px)] [background-size:20px_24px] opacity-50" />
 
-        <div className="absolute top-1/3 left-1/4 w-[400px] h-[400px] rounded-full bg-accent-red/5 blur-[120px]" />
-        <div className="absolute bottom-1/3 right-1/4 w-[500px] h-[500px] rounded-full bg-accent-blue/5 blur-[150px]" />
+        <div className="absolute top-1/3 left-1/4 w-[400px] h-[400px] rounded-full bg-white/5 blur-[120px]" />
+        <div className="absolute bottom-1/3 right-1/4 w-[500px] h-[500px] rounded-full bg-neutral-500/5 blur-[150px]" />
       </div>
 
       {/* Content Wrapper - 3 Column Layout */}
@@ -246,7 +276,7 @@ export default function LatestWork() {
           </div>
 
           {/* 3D Stacked Cards Container */}
-          <div className="relative z-10 w-full max-w-4xl mx-auto">
+          <div className="relative z-10 w-full max-w-4xl mx-auto" ref={containerRef}>
             {projects.map((project, index) => (
               <ProjectCard
                 key={index}
@@ -258,8 +288,8 @@ export default function LatestWork() {
         </div>
 
         {/* Right Navigation Menu (30%) */}
-        <div className="hidden lg:block w-[30%] relative z-10 border-l border-neutral-200 dark:border-neutral-900/60 pl-10 transition-colors duration-300">
-          <ProjectNavMenu projects={projects} />
+        <div className="hidden lg:block w-[30%] relative z-10 pl-10 transition-colors duration-300">
+          <ProjectNavMenu projects={projects} indicatorHeight={indicatorHeight} />
         </div>
         
       </div>

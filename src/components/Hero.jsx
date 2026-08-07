@@ -5,8 +5,8 @@ export default function Hero() {
   return (
     <section className="relative w-full flex flex-col items-start pt-12 md:pt-20 pb-10 px-6 md:px-12 select-none overflow-hidden font-inter">
       {/* Premium background radial glowing spotlights */}
-      <div className="absolute top-0 right-0 w-[500px] h-[500px] rounded-full bg-accent-purple/5 blur-[130px] pointer-events-none" />
-      <div className="absolute bottom-0 left-0 w-[400px] h-[400px] rounded-full bg-accent-blue/5 blur-[110px] pointer-events-none" />
+      <div className="absolute top-0 right-0 w-[500px] h-[500px] rounded-full bg-neutral-300/10 dark:bg-white/5 blur-[130px] pointer-events-none" />
+      <div className="absolute bottom-0 left-0 w-[400px] h-[400px] rounded-full bg-neutral-400/10 dark:bg-neutral-500/5 blur-[110px] pointer-events-none" />
 
       <motion.div 
         initial={{ opacity: 0, y: 40 }}
@@ -15,8 +15,8 @@ export default function Hero() {
         className="max-w-5xl"
       >
         <div className="flex items-center gap-3 mb-6">
-          <div className="w-12 h-[1px] bg-accent-red" />
-          <span className="text-accent-red font-mono text-xs md:text-sm font-black uppercase tracking-[0.3em] inline-block">
+          <div className="w-12 h-[1px] bg-neutral-800 dark:bg-neutral-200" />
+          <span className="text-neutral-800 dark:text-neutral-200 font-mono text-xs md:text-sm font-black uppercase tracking-[0.3em] inline-block">
             HELLO, I AM SOUITA CHARAF
           </span>
         </div>
@@ -24,8 +24,8 @@ export default function Hero() {
         <h1 className="text-5xl md:text-7xl lg:text-[110px] font-black leading-[0.85] tracking-tighter uppercase font-outfit select-none relative">
           CRAFTING DIGITAL <br />
           <span className="relative inline-block">
-            <span className="absolute inset-0 bg-gradient-to-r from-accent-red via-accent-purple to-accent-blue blur-xl opacity-30 animate-pulse" />
-            <span className="relative text-transparent bg-clip-text bg-gradient-to-r from-accent-red via-accent-purple to-accent-blue">
+            <span className="absolute inset-0 bg-gradient-to-r from-neutral-600 via-neutral-400 to-neutral-200 dark:from-white dark:via-neutral-300 dark:to-neutral-500 blur-xl opacity-30 animate-pulse" />
+            <span className="relative text-transparent bg-clip-text bg-gradient-to-r from-neutral-600 via-neutral-400 to-neutral-200 dark:from-white dark:via-neutral-300 dark:to-neutral-500">
               EXPERIENCES.
             </span>
           </span>
