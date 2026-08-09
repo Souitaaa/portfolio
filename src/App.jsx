@@ -8,10 +8,9 @@ import Testimonials from './components/Testimonials';
 import SpaceGame from './components/SpaceGame';
 import Footer from './components/Footer';
 import CustomCursor from './components/CustomCursor';
-import ThemeToggle from './components/ThemeToggle';
 import LiquidBackground from './components/LiquidBackground';
 import Loader from './components/Loader';
-import { AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useEffect, useState } from 'react';
 
 export default function App() {
@@ -42,29 +41,42 @@ useEffect(() => {
       </AnimatePresence>
       <LiquidBackground />
       <CustomCursor />
-      <ThemeToggle />
       {/* Main Scrollable Content */}
-      <main className="flex-1 flex flex-col min-w-0 overflow-x-clip cursor-none [&_*]:cursor-none relative z-10">
+      <main className="flex-1 flex flex-col min-w-0 cursor-none [&_*]:cursor-none relative z-10">
         {/* Hero Header */}
-        <Hero />
+        <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-5%" }} transition={{ duration: 0.8, ease: "easeOut" }}>
+          <Hero />
+        </motion.div>
 
         {/* Scrolling Infinite Marquee */}
-        <Marquee />
+        <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true, margin: "-5%" }} transition={{ duration: 1, ease: "easeOut" }}>
+          <Marquee />
+        </motion.div>
 
         {/* Overlapping Fanned-Out Case Studies */}
-        <LatestWork />
+        <motion.div initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-5%" }} transition={{ duration: 0.8, ease: "easeOut" }}>
+          <LatestWork />
+        </motion.div>
 
         {/* Bento Grid Experience & Tech Stack */}
-        <ExperienceBento />
+        <motion.div initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-5%" }} transition={{ duration: 0.8, ease: "easeOut" }}>
+          <ExperienceBento />
+        </motion.div>
 
         {/* Recommendations Section */}
-        <Testimonials />
+        <motion.div initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-5%" }} transition={{ duration: 0.8, ease: "easeOut" }}>
+          <Testimonials />
+        </motion.div>
 
         {/* Space Game */}
-        <SpaceGame />
+        <motion.div initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-5%" }} transition={{ duration: 0.8, ease: "easeOut" }}>
+          <SpaceGame />
+        </motion.div>
 
         {/* Unified Bottom Section (Contact, Resume, Socials) */}
-        <Footer />
+        <motion.div initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-5%" }} transition={{ duration: 0.8, ease: "easeOut" }}>
+          <Footer />
+        </motion.div>
       </main>
     </div>
   );

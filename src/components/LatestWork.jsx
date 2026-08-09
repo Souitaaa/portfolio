@@ -1,6 +1,6 @@
-import React, { useRef } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
-import { Terminal, Code, Play, Cpu, Layers, ExternalLink, Sparkles, Users, LayoutDashboard } from 'lucide-react';
+import React, { useRef, useState, useEffect } from 'react';
+import { motion, useScroll, useTransform, AnimatePresence, useMotionValueEvent } from 'framer-motion';
+import { Terminal, Code, Play, Cpu, Layers, ExternalLink, Sparkles, Users, LayoutDashboard, X } from 'lucide-react';
 import IrcPreview from './previews/IrcPreview';
 import Cub3dPreview from './previews/Cub3dPreview';
 import SoLongPreview from './previews/SoLongPreview';
@@ -16,6 +16,7 @@ const projects = [
     tags: ["C++98", "Network"],
     date: "2026",
     github: "https://github.com/Souitaaa/ft_irc.git",
+    demoVideoUrl: "/videos/ft_irc_demo.mp4",
     color: "from-neutral-400/20 via-neutral-400/5 to-transparent",
     glow: "shadow-[0_0_40px_rgba(255,255,255,0.1)] border-white/20",
     border: "border-neutral-800",
@@ -103,7 +104,7 @@ const projects = [
   }
 ];
 
-const ProjectCard = ({ project, index }) => {
+const ProjectCard = ({ project, index, openVideoModal }) => {
   const Icon = project.icon;
 
   // Stacking logic calculations
@@ -154,15 +155,26 @@ const ProjectCard = ({ project, index }) => {
             </p>
           </div>
 
-          <div className="mt-4">
-            <a
+          <div className="mt-6 flex flex-col sm:flex-row gap-3 w-full sm:w-auto pointer-events-auto">
+            <motion.button
+              onClick={() => openVideoModal(project)}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="w-full sm:w-auto inline-flex justify-center items-center gap-2 px-6 py-3 rounded-full text-xs font-black uppercase tracking-wider bg-purple-500 text-white shadow-[0_0_15px_rgba(168,85,247,0.4)]"
+            >
+              Live Demo <Play size={14} fill="currentColor" />
+            </motion.button>
+
+            <motion.a
               href={project.github}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-full text-xs font-black uppercase tracking-wider bg-black dark:bg-white text-white dark:text-black hover:bg-neutral-800 dark:hover:bg-neutral-200 transition-colors duration-300 pointer-events-auto"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="w-full sm:w-auto inline-flex justify-center items-center gap-2 px-6 py-3 rounded-full text-xs font-black uppercase tracking-wider bg-transparent border border-neutral-700 text-neutral-400 hover:bg-neutral-800 hover:text-white transition-colors duration-300"
             >
-              View Source <ExternalLink size={14} />
-            </a>
+              Source <Code size={14} />
+            </motion.a>
           </div>
         </div>
 
@@ -178,38 +190,44 @@ const ProjectCard = ({ project, index }) => {
   );
 };
 
-const ProjectNavMenu = ({ projects, indicatorHeight }) => {
+const ProjectNavMenu = ({ projects, indicatorHeight, activeIndex }) => {
   return (
     <div className="flex flex-col w-full sticky top-[100px]">
-      <div className="flex gap-6">
-        {/* Timeline Track */}
-        <div className="flex flex-col items-center shrink-0 w-[4px] relative">
-          <div className="w-full h-full bg-neutral-200/50 dark:bg-neutral-800/50 rounded-full relative overflow-hidden backdrop-blur-sm border border-neutral-300 dark:border-neutral-700/30">
-            <motion.div 
-              className="absolute top-0 left-0 w-full bg-black dark:bg-white rounded-full shadow-[0_0_12px_rgba(0,0,0,0.5)] dark:shadow-[0_0_15px_rgba(255,255,255,0.7)]"
-              style={{ height: indicatorHeight }}
-            />
-          </div>
-          {/* Subtle nodes indicating steps */}
-          <div className="absolute inset-0 flex flex-col justify-between pointer-events-none py-[5%]">
-             {projects.map((_, i) => (
-                <div key={i} className="w-1.5 h-1.5 rounded-full bg-white dark:bg-neutral-900 border border-neutral-400 dark:border-neutral-500 z-10 shadow-sm mx-auto -translate-x-[0.5px]" />
-             ))}
-          </div>
+      <div className="relative pl-10">
+        
+        {/* Timeline Track - Continuous Line */}
+        <div className="absolute left-[8px] top-[10px] bottom-[30px] w-[2px] bg-neutral-200/50 dark:bg-neutral-800/50 rounded-full overflow-hidden backdrop-blur-sm">
+          <motion.div 
+            className="absolute top-0 left-0 w-full bg-black dark:bg-white rounded-full shadow-[0_0_12px_rgba(0,0,0,0.5)] dark:shadow-[0_0_15px_rgba(255,255,255,0.7)]"
+            style={{ height: indicatorHeight }}
+          />
         </div>
 
         {/* Project List */}
-        <div className="flex flex-col gap-6 flex-1">
+        <div className="flex flex-col gap-6 w-full">
           {projects.map((project, index) => {
+            const isActive = index === activeIndex;
             return (
               <div 
                 key={index}
-                className="flex flex-col border-b border-neutral-200 dark:border-neutral-900/60 pb-6 last:border-0 relative opacity-60 hover:opacity-100 transition-opacity duration-300"
+                className={`flex flex-col border-b border-neutral-200 dark:border-neutral-900/60 pb-6 last:border-0 relative transition-all duration-500 group ${isActive ? 'opacity-100' : 'opacity-30 hover:opacity-60'}`}
               >
-                <h4 className="text-lg md:text-xl font-clash font-bold tracking-wide text-neutral-700 dark:text-neutral-300 hover:text-black dark:hover:text-white transition-colors duration-300">
+                {/* Subtle base dot for all items */}
+                <div className="absolute -left-[35px] top-[10px] w-[8px] h-[8px] rounded-full z-10 bg-transparent border border-neutral-400 dark:border-neutral-600 transition-colors duration-300" />
+
+                {/* The glowing Motion Dot that snaps to the active item */}
+                {isActive && (
+                  <motion.div 
+                    layoutId="activeTimelineDot"
+                    className="absolute -left-[38px] top-[7px] w-[14px] h-[14px] rounded-full z-20 bg-black dark:bg-white shadow-[0_0_10px_rgba(0,0,0,0.5)] dark:shadow-[0_0_15px_rgba(255,255,255,0.8)]"
+                    transition={{ type: "spring", stiffness: 400, damping: 35 }}
+                  />
+                )}
+
+                <h4 className={`text-lg md:text-xl font-clash font-bold tracking-wide transition-all duration-300 ${isActive ? 'text-black dark:text-white translate-x-2' : 'text-neutral-700 dark:text-neutral-400'}`}>
                   {project.title}
                 </h4>
-                <p className="text-xs font-mono text-neutral-500 mt-1">
+                <p className={`text-xs font-mono mt-1 transition-all duration-300 ${isActive ? 'text-neutral-500 translate-x-2' : 'text-neutral-600 dark:text-neutral-600'}`}>
                   {project.tags.join(" • ")}
                 </p>
               </div>
@@ -236,9 +254,38 @@ const ProjectNavMenu = ({ projects, indicatorHeight }) => {
 
 export default function LatestWork() {
   const containerRef = useRef(null);
+  const [activeVideoProject, setActiveVideoProject] = useState(null);
+
+  useEffect(() => {
+    if (activeVideoProject) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') setActiveVideoProject(null);
+    };
+    
+    window.addEventListener('keydown', handleKeyDown);
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+      document.body.style.overflow = 'unset';
+    };
+  }, [activeVideoProject]);
+
+  const [activeIndex, setActiveIndex] = useState(0);
+
   const { scrollYProgress } = useScroll({
     target: containerRef,
-    offset: ["start center", "end end"]
+    offset: ["start center", "end center"]
+  });
+
+  useMotionValueEvent(scrollYProgress, "change", (latest) => {
+    let index = Math.round(latest * (projects.length - 1));
+    if (index < 0) index = 0;
+    if (index >= projects.length) index = projects.length - 1;
+    setActiveIndex(index);
   });
 
   const indicatorHeight = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
@@ -282,6 +329,7 @@ export default function LatestWork() {
                 key={index}
                 index={index}
                 project={project}
+                openVideoModal={setActiveVideoProject}
               />
             ))}
           </div>
@@ -289,10 +337,72 @@ export default function LatestWork() {
 
         {/* Right Navigation Menu (30%) */}
         <div className="hidden lg:block w-[30%] relative z-10 pl-10 transition-colors duration-300">
-          <ProjectNavMenu projects={projects} indicatorHeight={indicatorHeight} />
+          <ProjectNavMenu projects={projects} indicatorHeight={indicatorHeight} activeIndex={activeIndex} />
         </div>
         
       </div>
+
+      {/* Video Modal */}
+      <AnimatePresence>
+        {activeVideoProject && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6"
+          >
+            <div 
+              className="absolute inset-0 bg-black/80 backdrop-blur-md cursor-pointer" 
+              onClick={() => setActiveVideoProject(null)} 
+            />
+            
+            <motion.div
+              initial={{ scale: 0.95, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.95, opacity: 0 }}
+              transition={{ type: "spring", damping: 25, stiffness: 300 }}
+              className="relative w-full max-w-5xl bg-neutral-900 border border-neutral-800 rounded-3xl overflow-hidden shadow-2xl flex flex-col pointer-events-auto"
+            >
+              {/* Header */}
+              <div className="flex items-center justify-between p-4 md:p-6 border-b border-neutral-800 bg-neutral-900/50 backdrop-blur-sm z-10">
+                <div className="flex flex-col">
+                  <h3 className="text-white font-clash font-bold text-xl md:text-2xl">{activeVideoProject.title} — Live Demo</h3>
+                  <span className="text-neutral-400 font-mono text-xs mt-1">
+                    {activeVideoProject.demoVideoUrl ? "Recorded Session" : "Interactive Preview"}
+                  </span>
+                </div>
+                <button
+                  onClick={() => setActiveVideoProject(null)}
+                  className="p-2 bg-neutral-800/50 hover:bg-neutral-800 rounded-full text-neutral-400 hover:text-white transition-colors"
+                >
+                  <X size={20} />
+                </button>
+              </div>
+              
+              {/* Video Player or Interactive Preview */}
+              <div className="relative w-full aspect-video bg-black flex items-center justify-center overflow-hidden">
+                {activeVideoProject.demoVideoUrl ? (
+                  <video
+                    src={activeVideoProject.demoVideoUrl}
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    controls
+                    className="w-full h-full object-contain"
+                  >
+                    Your browser does not support the video tag.
+                  </video>
+                ) : (
+                  <div className="w-full h-full p-4 md:p-8 flex items-center justify-center bg-[#090909]">
+                    {activeVideoProject.previewContent}
+                  </div>
+                )}
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   );
 }

@@ -2,8 +2,9 @@ import React from 'react';
 import { motion } from 'framer-motion';
 
 export default function Hero() {
+
   return (
-    <section className="relative w-full flex flex-col items-start pt-12 md:pt-20 pb-10 px-6 md:px-12 select-none overflow-hidden font-inter">
+    <section className="relative w-full flex flex-col items-start pt-12 md:pt-20 pb-10 px-6 md:px-12 select-none font-inter">
       {/* Premium background radial glowing spotlights */}
       <div className="absolute top-0 right-0 w-[500px] h-[500px] rounded-full bg-neutral-300/10 dark:bg-white/5 blur-[130px] pointer-events-none" />
       <div className="absolute bottom-0 left-0 w-[400px] h-[400px] rounded-full bg-neutral-400/10 dark:bg-neutral-500/5 blur-[110px] pointer-events-none" />
@@ -12,7 +13,7 @@ export default function Hero() {
         initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-        className="max-w-5xl"
+        className="max-w-6xl w-full"
       >
         <div className="flex items-center gap-3 mb-6">
           <div className="w-12 h-[1px] bg-neutral-800 dark:bg-neutral-200" />
@@ -21,7 +22,7 @@ export default function Hero() {
           </span>
         </div>
         
-        <h1 className="text-5xl md:text-7xl lg:text-[110px] font-black leading-[0.85] tracking-tighter uppercase font-outfit select-none relative">
+        <h1 className="text-5xl md:text-7xl lg:text-[110px] font-black leading-[0.85] tracking-tighter uppercase font-outfit select-none relative mb-12">
           CRAFTING DIGITAL <br />
           <span className="relative inline-block">
             <span className="absolute inset-0 bg-gradient-to-r from-neutral-600 via-neutral-400 to-neutral-200 dark:from-white dark:via-neutral-300 dark:to-neutral-500 blur-xl opacity-30 animate-pulse" />
@@ -31,7 +32,7 @@ export default function Hero() {
           </span>
         </h1>
 
-        <p className="text-neutral-600 dark:text-neutral-400 text-sm md:text-lg max-w-2xl mt-8 font-medium leading-relaxed font-sans">
+        <p className="text-neutral-600 dark:text-neutral-400 text-sm md:text-lg max-w-2xl font-medium leading-relaxed font-sans">
           A multi-disciplinary Software Engineer and Frontend Developer studying at 1337 (42 Network). 
           I merge intuitive design systems with high-performance code to build digital architectures 
           that feel as premium and effortless as they are robust.

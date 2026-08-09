@@ -9,7 +9,7 @@ const testimonials = [
     role: "Inmate",
     company: "",
     quote: "Working with Sharaf is an absolute pleasure. His attention to detail, modern design sensibilities, and technical expertise make him a standout developer.",
-    image: "/images/assiya.jpg",
+    image: null,
     initials: "AL"
   },
   {

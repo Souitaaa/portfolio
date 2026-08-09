@@ -43,7 +43,7 @@ const BentoCard = ({ children, className = "", delay = 0 }) => {
 
 export default function ExperienceBento() {
   return (
-    <section className="w-full bg-neutral-50 dark:bg-black py-24 md:py-32 px-6 md:px-12 relative overflow-hidden transition-colors duration-300">
+    <section className="w-full bg-neutral-50 dark:bg-black py-24 md:py-32 px-6 md:px-12 relative transition-colors duration-300">
       {/* Ambient background for the section */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none z-0 hidden dark:block">
         <div className="absolute top-1/2 left-1/4 w-[600px] h-[600px] rounded-full bg-neutral-900/40 blur-[150px]" />

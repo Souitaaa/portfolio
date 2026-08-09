@@ -12,6 +12,7 @@
   "dependencies": {
     "@rolldown/binding-linux-x64-gnu": "^1.2.0",
     "autoprefixer": "^10.4.20",
+    "cobe": "^2.0.1",
     "framer-motion": "^12.42.2",
     "lucide-react": "^1.25.0",
     "postcss": "^8.4.49",

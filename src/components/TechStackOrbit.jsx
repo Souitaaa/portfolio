@@ -1,193 +1,150 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
-
-// Extended tech list based on user request to make it fuller
-const techs = [
-  { name: 'JavaScript', slug: 'javascript', color: '#F7DF1E' },
-  { name: 'TypeScript', slug: 'typescript', color: '#3178C6' },
-  { name: 'Nest.js', slug: 'nestjs', color: '#E0234E' },
-  { name: 'React', slug: 'react', color: '#61DAFB' },
-  { name: 'Prisma', slug: 'prisma', color: '#5A67D8' },
-  { name: 'C', slug: 'c', color: '#A8B9CC' },
-  { name: 'C++98', slug: 'cplusplus', color: '#00599C' },
-  { name: 'Ubuntu', slug: 'ubuntu', color: '#E95420' },
-  { name: 'Docker', slug: 'docker', color: '#2496ED' },
-  { name: 'PostgreSQL', slug: 'postgresql', color: '#4169E1' },
-  { name: 'Figma', slug: 'figma', color: '#F24E1E' },
-  { name: 'GitHub', slug: 'github', color: '#181717' },
-];
+import React, { useEffect, useRef } from 'react';
+import createGlobe from 'cobe';
+import { useSpring, useMotionValue } from 'framer-motion';
 
 export default function TechStackOrbit() {
-  const containerRef = useRef(null);
-  const requestRef = useRef(null);
+  const canvasRef = useRef(null);
+  const pointerInteracting = useRef(null);
+  const pointerInteractionMovement = useRef(0);
   
-  // Rotation State
-  const [rotationX, setRotationX] = useState(0);
-  const [rotationY, setRotationY] = useState(0);
-  
-  // Dragging State
-  const [isDragging, setIsDragging] = useState(false);
-  const [lastMouseX, setLastMouseX] = useState(0);
-  const [lastMouseY, setLastMouseY] = useState(0);
-  
-  // Speed of auto-rotation
-  const autoRotateSpeed = 0.5;
-
-  // Animation Loop for Auto Rotation
-  const animate = useCallback(() => {
-    if (!isDragging) {
-      setRotationY(prev => prev + autoRotateSpeed);
-    }
-    requestRef.current = requestAnimationFrame(animate);
-  }, [isDragging]);
+  const r = useMotionValue(0);
+  const springR = useSpring(r, {
+    mass: 1,
+    stiffness: 280,
+    damping: 40,
+    restDelta: 0.001
+  });
 
   useEffect(() => {
-    requestRef.current = requestAnimationFrame(animate);
-    return () => cancelAnimationFrame(requestRef.current);
-  }, [animate]);
-
-  // Drag Handlers
-  const handlePointerDown = (e) => {
-    setIsDragging(true);
-    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-    const clientY = e.touches ? e.touches[0].clientY : e.clientY;
-    setLastMouseX(clientX);
-    setLastMouseY(clientY);
+    let phi = 0;
+    let width = 0;
+    let globe;
     
-    // Stop cursor interaction with elements inside while dragging
-    document.body.style.userSelect = 'none';
-  };
-
-  const handlePointerMove = (e) => {
-    if (!isDragging) return;
+    const onResize = () => {
+      if (canvasRef.current) {
+        width = canvasRef.current.offsetWidth;
+      }
+    };
+    window.addEventListener('resize', onResize);
+    onResize();
     
-    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-    const clientY = e.touches ? e.touches[0].clientY : e.clientY;
-    
-    const deltaX = clientX - lastMouseX;
-    const deltaY = clientY - lastMouseY;
-    
-    setRotationY(prev => prev + deltaX * 0.5);
-    setRotationX(prev => prev - deltaY * 0.5); // Negative for intuitive drag
-    
-    setLastMouseX(clientX);
-    setLastMouseY(clientY);
-  };
+    const onRender = (state) => {
+      if (!pointerInteracting.current) {
+        phi += 0.005; // auto-rotation speed
+      }
+      state.phi = phi + springR.get();
+      state.width = width * 2;
+      state.height = width * 2;
+    };
 
-  const handlePointerUp = () => {
-    setIsDragging(false);
-    document.body.style.userSelect = 'auto';
-  };
-
-  // Generate Sphere Coordinates using Fibonacci Sphere
-  const radius = 120; // Scaled down for bento card
-  
-  const generateSphereCoords = () => {
-    const coords = [];
-    const phi = Math.PI * (3 - Math.sqrt(5)); // Golden angle
-
-    for (let i = 0; i < techs.length; i++) {
-      const y = 1 - (i / (techs.length - 1)) * 2; // y goes from 1 to -1
-      const radiusAtY = Math.sqrt(1 - y * y); // radius at y
-      const theta = phi * i; // golden angle increment
-
-      const x = Math.cos(theta) * radiusAtY;
-      const z = Math.sin(theta) * radiusAtY;
-
-      coords.push({
-        x: x * radius,
-        y: y * radius,
-        z: z * radius,
-        ...techs[i]
+    if (canvasRef.current) {
+      // Configuration for a dark, glowing aesthetic globe
+      globe = createGlobe(canvasRef.current, {
+        devicePixelRatio: 2,
+        width: width * 2,
+        height: width * 2,
+        phi: 0,
+        theta: 0.3,
+        dark: 1, // 1 is dark, 0 is light
+        diffuse: 1.2,
+        mapSamples: 16000,
+        mapBrightness: 6,
+        baseColor: [1, 1, 1], // Pure white dots on dark bg looks best
+        markerColor: [0.6, 0.2, 1], // Purple/blue glowing markers
+        glowColor: [1.2, 1.2, 1.2], // White/bright glow surrounding
+        markers: [
+          { location: [37.7595, -122.4367], size: 0.03 },
+          { location: [40.7128, -74.0060], size: 0.1 },
+          { location: [51.5074, -0.1278], size: 0.08 },
+          { location: [35.6895, 139.6917], size: 0.05 },
+          { location: [31.7917, -7.0926], size: 0.1 }, // Morocco
+        ],
+        onRender,
       });
     }
-    return coords;
-  };
 
-  const items = generateSphereCoords();
+    return () => {
+      window.removeEventListener('resize', onResize);
+      if (globe) globe.destroy();
+    };
+  }, [r]);
 
   return (
     <div className="relative w-full h-full flex flex-col items-center justify-center bg-transparent overflow-hidden">
       
-      {/* Background Star Dots */}
-      <div className="absolute inset-0 opacity-20 pointer-events-none" style={{ backgroundImage: 'radial-gradient(circle, #ffffff 1px, transparent 1px)', backgroundSize: '30px 30px' }} />
-
+      {/* Background ambient glow */}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(255,255,255,0.05)_0%,_transparent_60%)] pointer-events-none" />
+      
       <div 
-        ref={containerRef}
-        className="relative w-full h-[300px] flex items-center justify-center cursor-grab active:cursor-grabbing z-10"
-        onMouseDown={handlePointerDown}
-        onMouseMove={handlePointerMove}
-        onMouseUp={handlePointerUp}
-        onMouseLeave={handlePointerUp}
-        onTouchStart={handlePointerDown}
-        onTouchMove={handlePointerMove}
-        onTouchEnd={handlePointerUp}
-        style={{ perspective: '800px' }}
+        className="w-full aspect-square max-w-[320px] md:max-w-[400px] flex items-center justify-center cursor-grab active:cursor-grabbing relative z-10"
+        style={{ margin: "auto" }}
       >
-        <div 
-          className="relative w-full h-full transform-style-preserve-3d transition-transform duration-75 ease-out flex items-center justify-center"
-          style={{ 
-            transformStyle: 'preserve-3d',
-            transform: `rotateX(${rotationX}deg) rotateY(${rotationY}deg)`
+        <canvas
+          ref={canvasRef}
+          onPointerDown={(e) => {
+            pointerInteracting.current = e.clientX - pointerInteractionMovement.current;
+            canvasRef.current.style.cursor = 'grabbing';
           }}
-        >
-          {/* Wireframe Sphere Grid */}
-          <div className="absolute inset-0 m-auto w-[240px] h-[240px] rounded-full border border-neutral-400/20 dark:border-white/10 opacity-50 pointer-events-none" style={{ transform: 'rotateX(90deg)' }} />
-          <div className="absolute inset-0 m-auto w-[240px] h-[240px] rounded-full border border-neutral-400/20 dark:border-white/10 opacity-50 pointer-events-none" style={{ transform: 'rotateY(45deg)' }} />
-          <div className="absolute inset-0 m-auto w-[240px] h-[240px] rounded-full border border-neutral-400/20 dark:border-white/10 opacity-50 pointer-events-none" style={{ transform: 'rotateY(90deg)' }} />
-          <div className="absolute inset-0 m-auto w-[240px] h-[240px] rounded-full border border-neutral-400/20 dark:border-white/10 opacity-50 pointer-events-none" style={{ transform: 'rotateY(135deg)' }} />
-
-          {/* Glowing core */}
-          <div className="absolute inset-0 m-auto w-24 h-24 rounded-full bg-indigo-500/20 blur-2xl pointer-events-none" />
-
-          {/* Tech Icons */}
-          {items.map((item, index) => {
-            return (
-              <div
-                key={index}
-                className="absolute inset-0 m-auto w-10 h-10 md:w-12 md:h-12 rounded-2xl flex flex-col items-center justify-center group"
-                style={{
-                  transformStyle: 'preserve-3d',
-                  transform: `translate3D(${item.x}px, ${item.y}px, ${item.z}px)`,
-                }}
-              >
-                {/* Counter-rotation to keep icons facing camera */}
-                <div 
-                  className="w-full h-full transition-transform duration-300 group-hover:scale-125 flex items-center justify-center"
-                  style={{
-                    transform: `rotateY(${-rotationY}deg) rotateX(${-rotationX}deg)`,
-                  }}
-                >
-                  {/* The actual icon content */}
-                  <div className="relative flex flex-col items-center group/icon">
-                    {/* Glowing shadow */}
-                    <div 
-                      className="absolute inset-0 blur-md opacity-0 group-hover/icon:opacity-80 transition-opacity duration-300 rounded-full" 
-                      style={{ backgroundColor: item.color }} 
-                    />
-                    
-                    {/* Hexagon wrapper */}
-                    <div className="relative z-10 w-10 h-10 flex items-center justify-center pointer-events-none bg-white/80 dark:bg-black/50 rounded-xl border border-neutral-200 dark:border-white/10 p-2 backdrop-blur-sm">
-                      <img 
-                        src={item.slug === 'github' && document.documentElement.classList.contains('dark') ? `https://cdn.simpleicons.org/${item.slug}/white` : `https://cdn.simpleicons.org/${item.slug}/${encodeURIComponent(item.color.replace('#', ''))}`} 
-                        alt={item.name}
-                        className="w-full h-full object-contain filter drop-shadow-sm opacity-90 group-hover/icon:opacity-100 transition-opacity"
-                        style={{ pointerEvents: 'none' }}
-                      />
-                    </div>
-                    
-                    {/* Tooltip */}
-                    <div className="absolute top-[120%] opacity-0 group-hover/icon:opacity-100 transition-opacity duration-300 pointer-events-none whitespace-nowrap">
-                      <span className="text-[10px] font-mono font-bold tracking-wider text-black dark:text-white bg-white/90 dark:bg-black/80 px-2 py-1 rounded-md backdrop-blur-md border border-neutral-200 dark:border-white/10 shadow-lg">
-                        {item.name}
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            );
-          })}
-        </div>
+          onPointerUp={() => {
+            pointerInteracting.current = null;
+            canvasRef.current.style.cursor = 'grab';
+          }}
+          onPointerOut={() => {
+            pointerInteracting.current = null;
+            canvasRef.current.style.cursor = 'grab';
+          }}
+          onMouseMove={(e) => {
+            if (pointerInteracting.current !== null) {
+              const delta = e.clientX - pointerInteracting.current;
+              pointerInteractionMovement.current = delta;
+              r.set(delta / 200);
+            }
+          }}
+          onTouchMove={(e) => {
+            if (pointerInteracting.current !== null && e.touches[0]) {
+              const delta = e.touches[0].clientX - pointerInteracting.current;
+              pointerInteractionMovement.current = delta;
+              r.set(delta / 100);
+            }
+          }}
+          style={{
+            width: "100%",
+            height: "100%",
+            contain: "layout paint size",
+            opacity: 0,
+            animation: "fade-in 1s ease forwards",
+          }}
+        />
       </div>
+
+      {/* Floating Tech Stack Badges to keep the "Tech Stack Orbit" context */}
+      <div className="absolute top-[10%] left-[10%] p-3 rounded-2xl bg-white/5 backdrop-blur-md border border-white/10 hidden md:flex items-center gap-2 shadow-[0_0_30px_rgba(255,255,255,0.05)] hover:scale-110 transition-transform duration-300 pointer-events-auto cursor-pointer z-20 hover:border-white/30 hover:bg-white/10 group">
+         <img src="https://cdn.simpleicons.org/react/61DAFB" alt="React" className="w-6 h-6 opacity-90 drop-shadow-[0_0_8px_rgba(97,218,251,0.5)] group-hover:opacity-100" /> 
+      </div>
+      
+      <div className="absolute bottom-[10%] right-[10%] p-3 rounded-2xl bg-white/5 backdrop-blur-md border border-white/10 hidden md:flex items-center gap-2 shadow-[0_0_30px_rgba(255,255,255,0.05)] hover:scale-110 transition-transform duration-300 pointer-events-auto cursor-pointer z-20 hover:border-white/30 hover:bg-white/10 group">
+         <img src="https://cdn.simpleicons.org/cplusplus/00599C" alt="C++98" className="w-6 h-6 opacity-90 drop-shadow-[0_0_8px_rgba(0,89,156,0.5)] group-hover:opacity-100" /> 
+      </div>
+
+      <div className="absolute top-[45%] left-[3%] p-3 rounded-2xl bg-white/5 backdrop-blur-md border border-white/10 hidden md:flex items-center gap-2 shadow-[0_0_30px_rgba(255,255,255,0.05)] hover:scale-110 transition-transform duration-300 pointer-events-auto cursor-pointer z-20 hover:border-white/30 hover:bg-white/10 group">
+         <img src="https://cdn.simpleicons.org/docker/2496ED" alt="Docker" className="w-6 h-6 opacity-90 drop-shadow-[0_0_8px_rgba(36,150,237,0.5)] group-hover:opacity-100" /> 
+      </div>
+
+      <div className="absolute top-[20%] right-[3%] p-3 rounded-2xl bg-white/5 backdrop-blur-md border border-white/10 hidden md:flex items-center gap-2 shadow-[0_0_30px_rgba(255,255,255,0.05)] hover:scale-110 transition-transform duration-300 pointer-events-auto cursor-pointer z-20 hover:border-white/30 hover:bg-white/10 group">
+         <img src="https://cdn.simpleicons.org/nodedotjs/339933" alt="Node.js" className="w-6 h-6 opacity-90 drop-shadow-[0_0_8px_rgba(51,153,51,0.5)] group-hover:opacity-100" /> 
+      </div>
+      
+      <div className="absolute bottom-[20%] left-[12%] p-3 rounded-2xl bg-white/5 backdrop-blur-md border border-white/10 hidden md:flex items-center gap-2 shadow-[0_0_30px_rgba(255,255,255,0.05)] hover:scale-110 transition-transform duration-300 pointer-events-auto cursor-pointer z-20 hover:border-white/30 hover:bg-white/10 group">
+         <img src="https://cdn.simpleicons.org/typescript/3178C6" alt="TypeScript" className="w-6 h-6 opacity-90 drop-shadow-[0_0_8px_rgba(49,120,198,0.5)] group-hover:opacity-100" /> 
+      </div>
+      
+      {/* Inline styles for the fade-in animation */}
+      <style dangerouslySetInnerHTML={{__html: `
+        @keyframes fade-in {
+          from { opacity: 0; transform: scale(0.9); }
+          to { opacity: 1; transform: scale(1); }
+        }
+      `}} />
     </div>
   );
 }
