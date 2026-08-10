@@ -12,6 +12,7 @@ import LiquidBackground from './components/LiquidBackground';
 import Loader from './components/Loader';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useEffect, useState } from 'react';
+import DevOffDutySection from './components/DevOffDutySection';
 
 export default function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -41,6 +42,7 @@ useEffect(() => {
       </AnimatePresence>
       <LiquidBackground />
       <CustomCursor />
+      
       {/* Main Scrollable Content */}
       <main className="flex-1 flex flex-col min-w-0 cursor-none [&_*]:cursor-none relative z-10">
         {/* Hero Header */}
@@ -71,6 +73,11 @@ useEffect(() => {
         {/* Space Game */}
         <motion.div initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-5%" }} transition={{ duration: 0.8, ease: "easeOut" }}>
           <SpaceGame />
+        </motion.div>
+
+        {/* Dev / Off-Duty Section */}
+        <motion.div initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-5%" }} transition={{ duration: 0.8, ease: "easeOut" }}>
+          <DevOffDutySection />
         </motion.div>
 
         {/* Unified Bottom Section (Contact, Resume, Socials) */}
