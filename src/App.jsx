@@ -3,7 +3,6 @@ import Hero from './components/Hero';
 import Marquee from './components/Marquee';
 import LatestWork from './components/LatestWork';
 import ExperienceBento from './components/ExperienceBento';
-import TechStackOrbit from './components/TechStackOrbit';
 import Testimonials from './components/Testimonials';
 import SpaceGame from './components/SpaceGame';
 import Footer from './components/Footer';

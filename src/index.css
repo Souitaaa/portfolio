@@ -58,55 +58,54 @@
   animation-delay: 4s;
 }
 
-/* Counter-rotation keeps technology logos upright as they circle the globe. */
-.tech-orbit-track {
-  position: absolute;
-  inset: 16%;
-  border: 1px solid rgba(114, 99, 230, 0.18);
-  border-radius: 50%;
-  pointer-events: none;
+.tech-board {
+  position: relative; width: 100%; height: 100%; min-height: 280px;
+  background-image: radial-gradient(circle, rgba(114,99,230,.18) 1px, transparent 1px);
+  background-size: 16px 16px;
 }
-
-.tech-orbit {
-  position: absolute;
-  inset: 16%;
-  animation: tech-orbit-spin 30s linear infinite;
-  animation-delay: var(--orbit-delay);
+.tech-board-heading {
+  position: absolute; inset: 20px 20px auto; display: flex; justify-content: space-between; gap: 8px;
+  font: 10px monospace; letter-spacing: .13em;
 }
-
-.tech-orbit-position {
-  position: absolute;
-  top: 0;
-  left: 50%;
-  transform: translate(-50%, -50%);
+.tech-board-heading h3 { font-weight: 700; }
+.tech-board-heading > span { opacity: .45; }
+.tech-circuits { position: absolute; width: 100%; height: 100%; inset: 0; }
+.tech-wire, .tech-signal { fill: none; stroke-width: .4; }
+.tech-wire { stroke: var(--signal-color); opacity: .2; }
+.tech-signal {
+  stroke: var(--signal-color); stroke-dasharray: 6 94;
+  animation: tech-transmit 4s linear infinite; animation-delay: var(--signal-delay);
 }
-
-.tech-orbit-upright {
-  animation: tech-orbit-spin 30s linear infinite reverse;
-  animation-delay: var(--orbit-delay);
+.tech-core {
+  position: absolute; left: 50%; top: 48%; transform: translate(-50%, -50%);
+  width: 66px; height: 66px; border: 1px solid #8b7be8; border-radius: 18px;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  background: #ede9fe; color: #6d28d9; box-shadow: 0 0 35px rgba(114,99,230,.2);
 }
-
-.tech-orbit-badge {
-  width: clamp(34px, 12vw, 44px);
-  height: clamp(34px, 12vw, 44px);
-  animation: tech-orbit-float 4s ease-in-out infinite;
-  animation-delay: var(--float-delay);
+.dark .tech-core { background: #191529; color: #c4b5fd; }
+.tech-core > span { font: bold 24px monospace; }
+.tech-core > small { font: 8px monospace; letter-spacing: .2em; margin-top: 4px; }
+.tech-nodes { margin: 0; padding: 0; list-style: none; }
+.tech-node {
+  position: absolute; transform: translate(-50%, -50%);
+  display: flex; flex-direction: column; align-items: center; gap: 7px;
 }
-
-@keyframes tech-orbit-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+.tech-key {
+  display: grid; place-items: center; width: 44px; height: 40px;
+  border: 1px solid var(--node-color); border-radius: 10px;
+  color: var(--node-color); background: #fafafa; box-shadow: 0 4px 0 #e5e5e5;
+  font: bold 16px monospace; transition: transform .2s, box-shadow .2s;
 }
-
-@keyframes tech-orbit-float {
-  0%, 100% { transform: translateY(-3px); }
-  50% { transform: translateY(3px); }
+.dark .tech-key { background: #111116; box-shadow: 0 4px 0 #25232e; }
+.tech-node:hover .tech-key { transform: translateY(-4px); box-shadow: 0 8px 20px color-mix(in srgb, var(--node-color) 25%, transparent); }
+.tech-name { font: 9px monospace; opacity: .7; }
+.tech-board-caption {
+  position: absolute; bottom: 14px; left: 0; right: 0; text-align: center;
+  font: 8px monospace; letter-spacing: .16em; opacity: .6;
 }
-
+.tech-board-caption i { display: inline-block; width: 5px; height: 5px; background: #4ade80; border-radius: 50%; margin-right: 6px; }
+@keyframes tech-transmit { to { stroke-dashoffset: -100; } }
 @media (prefers-reduced-motion: reduce) {
-  .tech-orbit,
-  .tech-orbit-upright,
-  .tech-orbit-badge {
-    animation-play-state: paused;
-  }
+  .tech-signal { animation: none; stroke-dasharray: none; opacity: .35; }
+  .tech-key { transition: none; }
 }
