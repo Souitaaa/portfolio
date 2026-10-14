@@ -7,6 +7,9 @@ export default {
   ],
   theme: {
     extend: {
+      maxWidth: {
+        page: '1600px',
+      },
       colors: {
         background: {
           DEFAULT: "#000000",

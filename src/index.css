@@ -57,3 +57,56 @@
 .animation-delay-4000 {
   animation-delay: 4s;
 }
+
+/* Counter-rotation keeps technology logos upright as they circle the globe. */
+.tech-orbit-track {
+  position: absolute;
+  inset: 16%;
+  border: 1px solid rgba(114, 99, 230, 0.18);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.tech-orbit {
+  position: absolute;
+  inset: 16%;
+  animation: tech-orbit-spin 30s linear infinite;
+  animation-delay: var(--orbit-delay);
+}
+
+.tech-orbit-position {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.tech-orbit-upright {
+  animation: tech-orbit-spin 30s linear infinite reverse;
+  animation-delay: var(--orbit-delay);
+}
+
+.tech-orbit-badge {
+  width: clamp(34px, 12vw, 44px);
+  height: clamp(34px, 12vw, 44px);
+  animation: tech-orbit-float 4s ease-in-out infinite;
+  animation-delay: var(--float-delay);
+}
+
+@keyframes tech-orbit-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes tech-orbit-float {
+  0%, 100% { transform: translateY(-3px); }
+  50% { transform: translateY(3px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tech-orbit,
+  .tech-orbit-upright,
+  .tech-orbit-badge {
+    animation-play-state: paused;
+  }
+}

@@ -22,7 +22,7 @@ const TypewriterText = ({ text }) => {
   return <span>{displayText}</span>;
 };
 
-const BentoCard = ({ children, className = "", delay = 0 }) => {
+const BentoCard = ({ children, className = "", contentClassName = "p-8", delay = 0 }) => {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -34,7 +34,7 @@ const BentoCard = ({ children, className = "", delay = 0 }) => {
     >
       {/* Subtle hover gradient glow */}
       <div className="absolute inset-0 bg-gradient-to-br from-neutral-200/50 dark:from-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
-      <div className="relative z-10 w-full h-full p-8">
+      <div className={`relative z-10 w-full h-full ${contentClassName}`}>
         {children}
       </div>
     </motion.div>
@@ -49,7 +49,7 @@ export default function ExperienceBento() {
         <div className="absolute top-1/2 left-1/4 w-[600px] h-[600px] rounded-full bg-neutral-900/40 blur-[150px]" />
       </div>
 
-      <div className="max-w-6xl mx-auto relative z-10">
+      <div className="max-w-page mx-auto relative z-10">
         
         {/* Section Header */}
         <motion.div 
@@ -172,13 +172,13 @@ export default function ExperienceBento() {
           </BentoCard>
 
           {/* 3. The Tech Orbit Card (Square) */}
-          <BentoCard delay={0.3} className="md:col-span-2 lg:col-span-1 row-span-1 p-0 flex flex-col items-center justify-center relative overflow-hidden group/orbitcard !rounded-full aspect-square mx-auto w-full max-w-[320px]">
+          <BentoCard delay={0.3} contentClassName="p-0" className="md:col-span-2 lg:col-span-1 row-span-1 p-0 flex flex-col items-center justify-center relative overflow-hidden group/orbitcard !rounded-full aspect-square mx-auto w-full max-w-[320px]">
             <div className="absolute top-8 left-1/2 -translate-x-1/2 z-20 pointer-events-none opacity-0 group-hover/orbitcard:opacity-100 transition-opacity duration-300">
               <h3 className="text-xs font-mono font-bold text-black dark:text-white uppercase tracking-widest bg-white/80 dark:bg-black/50 px-3 py-1 rounded-full backdrop-blur-md border border-neutral-200 dark:border-white/10 shadow-sm whitespace-nowrap">
                 Tech Stack
               </h3>
             </div>
-            <div className="absolute inset-0 w-full h-full flex items-center justify-center scale-150 opacity-80 group-hover/orbitcard:opacity-100 transition-opacity duration-500">
+            <div className="absolute inset-0 w-full h-full flex items-center justify-center opacity-80 group-hover/orbitcard:opacity-100 transition-opacity duration-500">
               <TechStackOrbit />
             </div>
           </BentoCard>

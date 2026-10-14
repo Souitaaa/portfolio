@@ -350,7 +350,7 @@ export default function SpaceGame() {
 
   return (
     <section ref={sectionRef} className="w-full bg-neutral-50 dark:bg-black py-16 px-6 md:px-12 relative flex flex-col items-center select-none font-mono transition-colors duration-300">
-      <div className="w-full max-w-5xl mb-6 flex justify-between items-end border-b border-neutral-200 dark:border-neutral-900 pb-4 transition-colors duration-300">
+      <div className="w-full max-w-7xl mb-6 flex justify-between items-end border-b border-neutral-200 dark:border-neutral-900 pb-4 transition-colors duration-300">
         <div>
           <span className="text-accent-blue font-bold text-xs uppercase tracking-[0.2em] block mb-1">
             MINI-GAME
@@ -365,7 +365,7 @@ export default function SpaceGame() {
         </div>
       </div>
       
-      <div className={`w-full max-w-5xl rounded-3xl overflow-hidden border border-neutral-300 dark:border-neutral-800 shadow-[0_0_50px_rgba(0,0,0,0.1)] dark:shadow-[0_0_50px_rgba(0,0,0,0.5)] relative transition-colors duration-300 ${isDarkTheme ? 'bg-[#050505]' : 'bg-white'}`}>
+      <div className={`w-full max-w-7xl rounded-3xl overflow-hidden border border-neutral-300 dark:border-neutral-800 shadow-[0_0_50px_rgba(0,0,0,0.1)] dark:shadow-[0_0_50px_rgba(0,0,0,0.5)] relative transition-colors duration-300 ${isDarkTheme ? 'bg-[#050505]' : 'bg-white'}`}>
         {/* Subtle scanline overlay for retro effect */}
         <div className={`absolute inset-0 bg-[length:100%_4px] pointer-events-none z-10 opacity-50 ${isDarkTheme ? 'bg-[linear-gradient(rgba(255,255,255,0),rgba(255,255,255,0.03)_50%,rgba(0,0,0,0.1)_51%,rgba(0,0,0,0)_100%)]' : 'bg-[linear-gradient(rgba(0,0,0,0),rgba(0,0,0,0.03)_50%,rgba(255,255,255,0.1)_51%,rgba(255,255,255,0)_100%)]'}`} />
         

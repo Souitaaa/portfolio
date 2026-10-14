@@ -7,6 +7,7 @@ yarn-error.log*
 
 # Dependency directories
 node_modules/
+node-env/
 
 # Build
 dist/
@@ -20,3 +21,6 @@ build/
 
 # macOS specific
 .DS_Store
+
+# Local runtime downloaded by Make
+.tools/

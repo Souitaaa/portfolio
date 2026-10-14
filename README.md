@@ -1,16 +1,34 @@
-# React + Vite
+# Portfolio
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+React portfolio built with Vite and Tailwind CSS.
 
-Currently, two official plugins are available:
+## Local development
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+With Make and npm installed, run:
 
-## React Compiler
+```sh
+make dev
+```
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Production build
 
-## Expanding the Oxlint configuration
+```sh
+make build
+```
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and Oxlint's TypeScript related rules in your project.
+`make build` installs the locked dependencies, including build tools, and builds
+the complete app into `dist/`. Running `make` does the same thing.
+`make preview` builds and serves the production app locally. `make dev` starts
+the development server, and `make lint` checks the source with Oxlint.
+Each command uses a compatible Node version, downloading Node 22 into the ignored
+`.tools/` folder if needed. The first setup requires internet access. No manual
+Node version switch is needed. Make and npm must already be installed.
+
+## Keeping the repository light
+
+Commit source files, `package.json`, and `package-lock.json`. Dependencies are
+reinstalled with `npm ci`; do not commit `node_modules/`, the local `node-env/`
+runtime, or generated `dist/` and `build/` directories. These are ignored by Git.
+
+The local Node environment can stay on your machine without being pushed.
+Removing it from tracking does not remove it from earlier Git history.

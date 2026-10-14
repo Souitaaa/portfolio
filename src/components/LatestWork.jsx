@@ -302,7 +302,7 @@ export default function LatestWork() {
       </div>
 
       {/* Content Wrapper - 3 Column Layout */}
-      <div className="relative z-10 w-full max-w-7xl mx-auto flex flex-col lg:flex-row h-full px-6 md:px-12 gap-12">
+      <div className="relative z-10 w-full max-w-page mx-auto flex flex-col lg:flex-row h-full px-6 md:px-12 gap-12">
         
         {/* Center Stage (70%) */}
         <div className="w-full lg:w-[70%] relative z-10">
@@ -323,7 +323,7 @@ export default function LatestWork() {
           </div>
 
           {/* 3D Stacked Cards Container */}
-          <div className="relative z-10 w-full max-w-4xl mx-auto" ref={containerRef}>
+          <div className="relative z-10 w-full max-w-6xl mx-auto" ref={containerRef}>
             {projects.map((project, index) => (
               <ProjectCard
                 key={index}

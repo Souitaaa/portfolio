@@ -49,7 +49,7 @@ export default function Footer() {
       onMouseLeave={() => setIsHovering(false)}
     >
       {/* Main Content Container */}
-      <div className="flex flex-col xl:flex-row gap-16 xl:gap-24 relative z-10 w-full max-w-7xl mx-auto">
+      <div className="flex flex-col xl:flex-row gap-16 xl:gap-24 relative z-10 w-full max-w-page mx-auto">
         
         {/* Left Column: Typography, Email, Socials, Resume */}
         <div className="flex-1 flex flex-col">
@@ -199,7 +199,7 @@ export default function Footer() {
 
 
       {/* Back to Top */}
-      <div className="relative z-10 mt-16 md:mt-24 w-full max-w-7xl mx-auto flex items-center justify-between border-t border-neutral-300 dark:border-zinc-800 pt-8">
+      <div className="relative z-10 mt-16 md:mt-24 w-full max-w-page mx-auto flex items-center justify-between border-t border-neutral-300 dark:border-zinc-800 pt-8">
         <span className="text-xs font-mono text-neutral-500">© 2026 SOUITA CHARAF</span>
         <button 
           onClick={scrollToTop}
