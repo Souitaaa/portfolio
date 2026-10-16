@@ -1,6 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { motion, useScroll, useTransform, AnimatePresence, useMotionValueEvent } from 'framer-motion';
-import { Terminal, Code, Play, Cpu, Layers, ExternalLink, Sparkles, Users, LayoutDashboard, X } from 'lucide-react';
+import { Terminal, Code, Play, Cpu, Layers, Sparkles, Users, LayoutDashboard, X } from 'lucide-react';
 import IrcPreview from './previews/IrcPreview';
 import Cub3dPreview from './previews/Cub3dPreview';
 import SoLongPreview from './previews/SoLongPreview';
@@ -16,7 +16,6 @@ const projects = [
     tags: ["C++98", "Network"],
     date: "2026",
     github: "https://github.com/Souitaaa/ft_irc.git",
-    demoVideoUrl: "/videos/ft_irc_demo.mp4",
     color: "from-neutral-400/20 via-neutral-400/5 to-transparent",
     glow: "shadow-[0_0_40px_rgba(255,255,255,0.1)] border-white/20",
     border: "border-neutral-800",
@@ -380,7 +379,7 @@ export default function LatestWork() {
               </div>
               
               {/* Video Player or Interactive Preview */}
-              <div className="relative w-full aspect-video bg-black flex items-center justify-center overflow-hidden">
+              <div className={`relative w-full ${["so_long", "Cub3d"].includes(activeVideoProject.title) ? "max-h-[75dvh] overflow-y-auto" : "aspect-video overflow-hidden"} bg-black flex items-center justify-center`}>
                 {activeVideoProject.demoVideoUrl ? (
                   <video
                     src={activeVideoProject.demoVideoUrl}
@@ -395,7 +394,7 @@ export default function LatestWork() {
                   </video>
                 ) : (
                   <div className="w-full h-full p-4 md:p-8 flex items-center justify-center bg-[#090909]">
-                    {activeVideoProject.previewContent}
+                    {activeVideoProject.title === "so_long" ? <SoLongPreview expanded /> : activeVideoProject.title === "Cub3d" ? <Cub3dPreview expanded /> : activeVideoProject.previewContent}
                   </div>
                 )}
               </div>

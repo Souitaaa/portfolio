@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
 import { Download, Send, CheckCircle2, FileText } from 'lucide-react';
-import { motion } from 'framer-motion';
 
 export default function Footer() {
-  const [isHovering, setIsHovering] = useState(false);
   const [status, setStatus] = useState('');
 
   const scrollToTop = () => {
@@ -37,7 +35,7 @@ export default function Footer() {
       } else {
         setStatus('error');
       }
-    } catch (error) {
+    } catch {
       setStatus('error');
     }
   };
@@ -45,8 +43,6 @@ export default function Footer() {
   return (
     <footer 
       className="relative bg-white/10 dark:bg-[#0a0a0a]/40 backdrop-blur-xl rounded-t-[2rem] md:rounded-t-[3rem] p-8 md:p-12 lg:p-24 overflow-hidden flex flex-col justify-between min-h-[70vh] cursor-none [&_*]:cursor-none mt-20 transition-colors duration-300 border-t border-neutral-200/50 dark:border-zinc-800/50"
-      onMouseEnter={() => setIsHovering(true)}
-      onMouseLeave={() => setIsHovering(false)}
     >
       {/* Main Content Container */}
       <div className="flex flex-col xl:flex-row gap-16 xl:gap-24 relative z-10 w-full max-w-page mx-auto">

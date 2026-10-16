@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { motion, useAnimation } from 'framer-motion';
-import { Terminal as TerminalIcon, GitCommit, Code2, Database, Layout, Server, Cpu } from 'lucide-react';
-import TechConstellation from './TechConstellation';
+import { motion } from 'framer-motion';
+import { GitCommit } from 'lucide-react';
+import TechGlobe from './TechGlobe';
 
 const TypewriterText = ({ text }) => {
   const [displayText, setDisplayText] = useState('');
@@ -171,9 +171,9 @@ export default function ExperienceBento() {
             </div>
           </BentoCard>
 
-          {/* 3. Tech circuit board */}
+          {/* 3. Tech globe */}
           <BentoCard delay={0.3} contentClassName="p-0" className="md:col-span-2 lg:col-span-1 row-span-1 aspect-square w-full min-h-[280px]">
-            <TechConstellation />
+            <TechGlobe />
           </BentoCard>
 
           {/* 4. Stats/GitHub Card (Square) */}

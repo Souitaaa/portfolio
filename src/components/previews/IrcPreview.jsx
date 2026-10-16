@@ -10,6 +10,7 @@ export default function IrcPreview() {
   ]);
   const [input, setInput] = useState('');
   const containerRef = useRef(null);
+  const inputRef = useRef(null);
 
   useEffect(() => {
     if (containerRef.current) {
@@ -40,7 +41,7 @@ export default function IrcPreview() {
   };
 
   return (
-    <div className="flex flex-col text-sm md:text-base font-mono leading-relaxed select-text p-8 w-full h-full max-w-2xl bg-black/60 rounded-2xl border border-white/10 shadow-2xl text-neutral-300 overflow-hidden" onClick={() => document.getElementById('irc-input')?.focus()}>
+    <div className="flex flex-col text-sm md:text-base font-mono leading-relaxed select-text p-8 w-full h-full max-w-2xl bg-black/60 rounded-2xl border border-white/10 shadow-2xl text-neutral-300 overflow-hidden" onClick={() => inputRef.current?.focus()}>
       <div ref={containerRef} className="flex-1 overflow-y-auto custom-scrollbar flex flex-col gap-3">
         {messages.map((msg, i) => (
           <div key={i}>
@@ -67,7 +68,8 @@ export default function IrcPreview() {
         <form onSubmit={handleSend} className="flex gap-2 items-center mt-auto pt-4">
           <span className="text-accent-green font-bold whitespace-nowrap">you:</span>
           <input
-            id="irc-input"
+            ref={inputRef}
+            aria-label="IRC message"
             type="text"
             value={input}
             onChange={(e) => setInput(e.target.value)}

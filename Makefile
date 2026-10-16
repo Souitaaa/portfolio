@@ -2,6 +2,10 @@
 
 # Prefer the project runtime; keep the existing local environment as a fallback.
 export PATH := $(CURDIR)/.tools/node_modules/.bin:$(CURDIR)/node-env/bin:$(PATH)
+# Debian packages npm dependencies separately; let the local Node runtime find them.
+ifneq ($(wildcard /usr/share/nodejs),)
+export NODE_PATH := /usr/share/nodejs$(if $(NODE_PATH),:$(NODE_PATH))
+endif
 NPM ?= npm
 
 .PHONY: build install dev preview lint runtime

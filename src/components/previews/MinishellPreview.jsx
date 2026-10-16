@@ -9,6 +9,7 @@ export default function MinishellPreview() {
   ]);
   const [input, setInput] = useState('');
   const containerRef = useRef(null);
+  const inputRef = useRef(null);
 
   useEffect(() => {
     if (containerRef.current) {
@@ -54,7 +55,7 @@ export default function MinishellPreview() {
   };
 
   return (
-    <div className="flex flex-col text-sm md:text-base font-mono leading-relaxed select-text p-8 w-full h-full max-w-2xl bg-black/60 rounded-2xl border border-white/10 shadow-2xl text-neutral-300 overflow-hidden" onClick={() => document.getElementById('minishell-input')?.focus()}>
+    <div className="flex flex-col text-sm md:text-base font-mono leading-relaxed select-text p-8 w-full h-full max-w-2xl bg-black/60 rounded-2xl border border-white/10 shadow-2xl text-neutral-300 overflow-hidden" onClick={() => inputRef.current?.focus()}>
       <div ref={containerRef} className="flex-1 overflow-y-auto custom-scrollbar flex flex-col gap-3">
         {history.map((line, i) => (
           <div key={i}>
@@ -69,7 +70,8 @@ export default function MinishellPreview() {
         <form onSubmit={handleCommand} className="flex gap-2 items-center mt-auto">
           <span className="text-accent-blue whitespace-nowrap">sharaf_shell$</span>
           <input
-            id="minishell-input"
+            ref={inputRef}
+            aria-label="Shell command"
             type="text"
             value={input}
             onChange={(e) => setInput(e.target.value)}

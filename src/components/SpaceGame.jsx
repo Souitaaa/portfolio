@@ -23,6 +23,7 @@ export default function SpaceGame() {
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
+    if (!ctx) return;
 
     // Make canvas fill container
     const resizeCanvas = () => {
@@ -81,19 +82,10 @@ export default function SpaceGame() {
       });
     }
 
-    const resetGame = () => {
-      player.x = canvas.width / 2;
-      bullets = [];
-      enemies = [];
-      currentScore = 0;
-      setScore(0);
-      lastShootTime = 0;
-      lastEnemySpawnTime = 0;
-    };
-
     // --- EVENT LISTENERS ---
     const handleKeyDown = (e) => {
-      if (keys.hasOwnProperty(e.key)) {
+      if (e.defaultPrevented || !isVisible || e.target.closest('input, textarea, select, [contenteditable="true"]')) return;
+      if (Object.hasOwn(keys, e.key)) {
         keys[e.key] = true;
         // Prevent default scrolling when playing
         if (gameState === 'PLAYING' && (e.key === 'ArrowLeft' || e.key === 'ArrowRight')) {
@@ -103,7 +95,7 @@ export default function SpaceGame() {
     };
 
     const handleKeyUp = (e) => {
-      if (keys.hasOwnProperty(e.key)) {
+      if (Object.hasOwn(keys, e.key)) {
         keys[e.key] = false;
       }
     };
@@ -334,7 +326,7 @@ export default function SpaceGame() {
     // Cleanup
     return () => {
       cancelAnimationFrame(animationFrameId);
-      if (sectionRef.current) observer.unobserve(sectionRef.current);
+      observer.disconnect();
       window.removeEventListener('resize', resizeCanvas);
       window.removeEventListener('keydown', handleKeyDown);
       window.removeEventListener('keyup', handleKeyUp);

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { motion, useMotionValue, useTransform, useSpring } from 'framer-motion';
 
 export default function Hero() {

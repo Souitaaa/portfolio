@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Quote, Sparkles, X } from 'lucide-react';
+import { Quote, X } from 'lucide-react';
 import TestimonialsHeader from './TestimonialsHeader';
 
 const testimonials = [
