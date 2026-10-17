@@ -174,7 +174,7 @@ export default function Testimonials() {
             <div className="fixed inset-0 flex items-center justify-center z-50 pointer-events-none p-4 sm:p-8">
               <motion.div
                 layoutId={`card-${selectedId}`}
-                className="relative bg-white dark:bg-background-card border border-neutral-200 dark:border-neutral-800 w-full max-w-2xl rounded-3xl p-8 sm:p-12 shadow-2xl pointer-events-auto flex flex-col overflow-hidden"
+                className="relative bg-white dark:bg-background-card border border-neutral-200 dark:border-neutral-800 w-full max-w-2xl rounded-3xl p-8 sm:p-12 shadow-2xl pointer-events-auto flex flex-col max-h-[calc(100dvh-2rem)] overflow-y-auto"
               >
                 <button 
                   onClick={() => setSelectedId(null)}

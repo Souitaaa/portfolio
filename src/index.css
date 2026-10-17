@@ -134,3 +134,35 @@
 .cub3d-expanded canvas { flex: none; aspect-ratio: 16 / 9; }
 .cub3d-expanded .cub3d-controls button { min-width: 44px; min-height: 44px; }
 @media (max-width: 480px) { .cub3d-footer > span { max-width: 130px; line-height: 1.5; } }
+
+/* Let content determine card height until there is room for the desktop deck. */
+@media (min-width: 1280px) and (min-height: 800px) {
+  .project-card { top: min(var(--card-top), 18vh); }
+}
+@media (max-height: 799px) {
+  .project-card { position: relative; }
+}
+.demo-content { min-height: min(560px, 65dvh); }
+.demo-content > * { min-width: 0; }
+.demo-content > .so-long-demo, .demo-content > .cub3d-demo { margin: auto; }
+.demo-content > :not(.so-long-demo):not(.cub3d-demo) { height: min(500px, 62dvh); min-height: 280px; }
+.demo-content > .so-long-expanded .so-long-board { width: min(100%, 432px, 48dvh); }
+.demo-content > .cub3d-expanded canvas { max-height: 48dvh; }
+.project-preview > * { min-width: 0; }
+.so-long-footer, .cub3d-footer, .so-long-hud, .cub3d-hud { flex-wrap: wrap; }
+.so-long-controls, .cub3d-controls { margin-left: auto; }
+.so-long-controls button, .cub3d-controls button { min-width: 44px; min-height: 44px; }
+@media (max-width: 639px) {
+  input, textarea { font-size: 16px !important; }
+  .demo-content { padding: 10px; }
+  .demo-content > :not(.so-long-demo):not(.cub3d-demo) { height: auto; min-height: 360px; }
+  .demo-content > .select-text { height: 52dvh; min-height: 240px; }
+  .project-preview .so-long-board { width: min(100%, 180px); }
+}
+@media (hover: none), (pointer: coarse), (max-width: 767px) {
+  main, main *, footer, footer * { cursor: auto !important; }
+  .mix-blend-difference.pointer-events-none { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}

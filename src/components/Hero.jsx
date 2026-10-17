@@ -42,7 +42,7 @@ export default function Hero() {
         transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
         className="max-w-page w-full flex flex-col-reverse lg:flex-row items-center justify-between gap-12 lg:gap-24 relative z-10"
       >
-        <div className="flex-1 lg:max-w-2xl z-20">
+        <div className="min-w-0 w-full flex-1 lg:max-w-2xl z-20">
           <div className="flex items-center gap-3 mb-6">
             <div className="w-12 h-[1px] bg-neutral-800 dark:bg-neutral-200" />
             <span className="text-neutral-800 dark:text-neutral-200 font-mono text-xs md:text-sm font-black uppercase tracking-[0.3em] inline-block">
@@ -50,7 +50,7 @@ export default function Hero() {
             </span>
           </div>
           
-          <h1 className="text-5xl md:text-7xl lg:text-[100px] font-black leading-[0.85] tracking-tighter uppercase font-outfit select-none relative mb-12">
+          <h1 className="text-[clamp(2rem,7.5vw,6.25rem)] font-black leading-[0.85] tracking-tighter uppercase font-outfit select-none relative mb-12">
             CRAFTING DIGITAL <br />
             <span className="relative inline-block mt-2">
               <span className="absolute inset-0 bg-gradient-to-r from-neutral-600 via-neutral-400 to-neutral-200 dark:from-white dark:via-neutral-300 dark:to-neutral-500 blur-xl opacity-30 animate-pulse" />
@@ -69,7 +69,7 @@ export default function Hero() {
 
         {/* 3D Interactive Image Container */}
         <motion.div 
-          className="relative w-full max-w-sm md:max-w-md lg:max-w-lg aspect-square lg:aspect-[4/5] flex-shrink-0 z-10"
+          className="relative w-full max-w-sm md:max-w-md lg:max-w-[40%] aspect-square lg:aspect-[4/5] flex-shrink-0 z-10"
           style={{ perspective: 1000 }}
           onMouseMove={handleMouseMove}
           onMouseLeave={handleMouseLeave}

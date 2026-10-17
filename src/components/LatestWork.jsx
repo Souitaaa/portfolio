@@ -1,6 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { motion, useScroll, useTransform, AnimatePresence, useMotionValueEvent } from 'framer-motion';
 import { Terminal, Code, Play, Cpu, Layers, Sparkles, Users, LayoutDashboard, X } from 'lucide-react';
+import { createPortal } from 'react-dom';
 import IrcPreview from './previews/IrcPreview';
 import Cub3dPreview from './previews/Cub3dPreview';
 import SoLongPreview from './previews/SoLongPreview';
@@ -113,9 +114,9 @@ const ProjectCard = ({ project, index, openVideoModal }) => {
 
   return (
     <div
-      className="sticky w-full h-[450px] md:h-[500px] rounded-[32px] md:rounded-[48px] bg-white dark:bg-[#0d0d0e] border border-neutral-200 dark:border-neutral-800 shadow-xl dark:shadow-2xl flex flex-col lg:flex-row overflow-hidden mb-12 transition-all duration-300"
+      className="project-card relative xl:sticky w-full min-w-0 xl:min-h-[540px] rounded-[32px] md:rounded-[48px] bg-white dark:bg-[#0d0d0e] border border-neutral-200 dark:border-neutral-800 shadow-xl dark:shadow-2xl flex flex-col lg:flex-row overflow-hidden mb-12 transition-all duration-300"
       style={{
-        top: `${topOffset}px`,
+        '--card-top': `${topOffset}px`,
         zIndex: zIndex,
       }}
     >
@@ -123,10 +124,10 @@ const ProjectCard = ({ project, index, openVideoModal }) => {
       <div className={`absolute inset-0 bg-gradient-to-br ${project.color} opacity-30 pointer-events-none z-0`} />
 
       {/* Card Content */}
-      <div className="relative z-10 w-full h-full flex flex-col lg:flex-row">
+      <div className="relative z-10 w-full min-w-0 h-full flex flex-col xl:flex-row">
         
         {/* Left Side: Info */}
-        <div className="w-full lg:w-1/2 h-1/2 lg:h-full flex flex-col justify-between p-6 md:p-10 border-b lg:border-b-0 lg:border-r border-neutral-200/50 dark:border-white/5 bg-white/40 dark:bg-black/40 backdrop-blur-sm transition-colors duration-300">
+        <div className="w-full xl:w-1/2 min-w-0 flex flex-col justify-between gap-6 p-5 sm:p-6 md:p-10 border-b xl:border-b-0 xl:border-r border-neutral-200/50 dark:border-white/5 bg-white/40 dark:bg-black/40 backdrop-blur-sm transition-colors duration-300">
           <div>
             <div className="flex justify-between items-start mb-6">
               <div className="p-3 md:p-4 bg-white/40 dark:bg-background-inner/50 backdrop-blur-md rounded-2xl border border-neutral-200/50 dark:border-neutral-800/50 relative z-10 text-neutral-600 dark:text-neutral-300 shadow-inner">
@@ -178,8 +179,8 @@ const ProjectCard = ({ project, index, openVideoModal }) => {
         </div>
 
         {/* Right Side: Visual Preview */}
-        <div className="w-full lg:w-1/2 h-1/2 lg:h-full relative flex items-center justify-center p-6 bg-neutral-100/60 dark:bg-black/60 transition-colors duration-300">
-          <div className="w-full h-full max-h-[300px] border border-neutral-300/80 dark:border-neutral-800/80 rounded-2xl md:rounded-3xl bg-white dark:bg-[#090909] shadow-xl dark:shadow-2xl overflow-hidden flex items-center justify-center relative transition-colors duration-300">
+        <div className="w-full xl:w-1/2 min-w-0 relative flex items-center justify-center p-3 sm:p-6 bg-neutral-100/60 dark:bg-black/60 transition-colors duration-300">
+          <div className="project-preview w-full h-[320px] sm:h-[360px] xl:h-[400px] min-w-0 border border-neutral-300/80 dark:border-neutral-800/80 rounded-2xl md:rounded-3xl bg-white dark:bg-[#090909] shadow-xl dark:shadow-2xl overflow-hidden flex items-center justify-center relative transition-colors duration-300">
             {project.previewContent}
           </div>
         </div>
@@ -256,20 +257,26 @@ export default function LatestWork() {
   const [activeVideoProject, setActiveVideoProject] = useState(null);
 
   useEffect(() => {
-    if (activeVideoProject) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'unset';
-    }
-    
+    if (!activeVideoProject) return;
+    const previousOverflow = document.body.style.overflow;
+    const trigger = document.activeElement;
+    document.body.style.overflow = 'hidden';
+    const frame = requestAnimationFrame(() => document.querySelector('.demo-modal button')?.focus());
     const handleKeyDown = (e) => {
       if (e.key === 'Escape') setActiveVideoProject(null);
+      if (e.key === 'Tab') {
+        const controls = [...document.querySelectorAll('.demo-modal button, .demo-modal input, .demo-modal [tabindex="0"]')];
+        const first = controls[0], last = controls[controls.length - 1];
+        if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last?.focus(); }
+        else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first?.focus(); }
+      }
     };
-    
     window.addEventListener('keydown', handleKeyDown);
     return () => {
+      cancelAnimationFrame(frame);
       window.removeEventListener('keydown', handleKeyDown);
-      document.body.style.overflow = 'unset';
+      document.body.style.overflow = previousOverflow;
+      trigger?.focus({ preventScroll: true });
     };
   }, [activeVideoProject]);
 
@@ -301,10 +308,10 @@ export default function LatestWork() {
       </div>
 
       {/* Content Wrapper - 3 Column Layout */}
-      <div className="relative z-10 w-full max-w-page mx-auto flex flex-col lg:flex-row h-full px-6 md:px-12 gap-12">
+      <div className="relative z-10 w-full max-w-page mx-auto flex flex-col xl:flex-row h-full px-4 sm:px-6 md:px-12 gap-8">
         
         {/* Center Stage (70%) */}
-        <div className="w-full lg:w-[70%] relative z-10">
+        <div className="w-full min-w-0 xl:flex-1 relative z-10">
           
           {/* Section Header */}
           <div className="relative z-10 w-full mb-16 flex flex-col md:flex-row md:items-end justify-between border-b border-neutral-200 dark:border-neutral-900/60 pb-6 shrink-0 transition-colors duration-300">
@@ -335,7 +342,7 @@ export default function LatestWork() {
         </div>
 
         {/* Right Navigation Menu (30%) */}
-        <div className="hidden lg:block w-[30%] relative z-10 pl-10 transition-colors duration-300">
+        <div className="hidden xl:block w-64 shrink-0 relative z-10 pl-10 transition-colors duration-300">
           <ProjectNavMenu projects={projects} indicatorHeight={indicatorHeight} activeIndex={activeIndex} />
         </div>
         
@@ -343,12 +350,12 @@ export default function LatestWork() {
 
       {/* Video Modal */}
       <AnimatePresence>
-        {activeVideoProject && (
+        {activeVideoProject && createPortal((
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6"
+            className="demo-modal fixed inset-0 z-[200] flex items-center justify-center p-2 sm:p-6"
           >
             <div 
               className="absolute inset-0 bg-black/80 backdrop-blur-md cursor-pointer" 
@@ -360,26 +367,28 @@ export default function LatestWork() {
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.95, opacity: 0 }}
               transition={{ type: "spring", damping: 25, stiffness: 300 }}
-              className="relative w-full max-w-5xl bg-neutral-900 border border-neutral-800 rounded-3xl overflow-hidden shadow-2xl flex flex-col pointer-events-auto"
+              role="dialog" aria-modal="true" aria-labelledby="demo-title"
+              className="relative w-full max-w-5xl max-h-[calc(100dvh-1rem)] sm:max-h-[calc(100dvh-3rem)] bg-neutral-900 border border-neutral-800 rounded-3xl overflow-hidden shadow-2xl flex flex-col pointer-events-auto"
             >
               {/* Header */}
-              <div className="flex items-center justify-between p-4 md:p-6 border-b border-neutral-800 bg-neutral-900/50 backdrop-blur-sm z-10">
-                <div className="flex flex-col">
-                  <h3 className="text-white font-clash font-bold text-xl md:text-2xl">{activeVideoProject.title} — Live Demo</h3>
+              <div className="shrink-0 flex items-center justify-between p-4 md:p-6 border-b border-neutral-800 bg-neutral-900/50 backdrop-blur-sm z-10">
+                <div className="flex flex-col min-w-0 pr-3">
+                  <h3 id="demo-title" className="text-white font-clash font-bold text-xl md:text-2xl">{activeVideoProject.title} — Live Demo</h3>
                   <span className="text-neutral-400 font-mono text-xs mt-1">
                     {activeVideoProject.demoVideoUrl ? "Recorded Session" : "Interactive Preview"}
                   </span>
                 </div>
                 <button
+                  aria-label="Close demo"
                   onClick={() => setActiveVideoProject(null)}
-                  className="p-2 bg-neutral-800/50 hover:bg-neutral-800 rounded-full text-neutral-400 hover:text-white transition-colors"
+                  className="shrink-0 min-h-11 min-w-11 p-2 bg-neutral-800/50 hover:bg-neutral-800 rounded-full text-neutral-400 hover:text-white transition-colors"
                 >
                   <X size={20} />
                 </button>
               </div>
               
               {/* Video Player or Interactive Preview */}
-              <div className={`relative w-full ${["so_long", "Cub3d"].includes(activeVideoProject.title) ? "max-h-[75dvh] overflow-y-auto" : "aspect-video overflow-hidden"} bg-black flex items-center justify-center`}>
+              <div className="demo-stage relative w-full min-h-0 overflow-y-auto overscroll-contain bg-black">
                 {activeVideoProject.demoVideoUrl ? (
                   <video
                     src={activeVideoProject.demoVideoUrl}
@@ -393,14 +402,14 @@ export default function LatestWork() {
                     Your browser does not support the video tag.
                   </video>
                 ) : (
-                  <div className="w-full h-full p-4 md:p-8 flex items-center justify-center bg-[#090909]">
+                  <div className="demo-content w-full min-w-0 p-3 sm:p-6 md:p-8 flex items-center justify-center bg-[#090909]">
                     {activeVideoProject.title === "so_long" ? <SoLongPreview expanded /> : activeVideoProject.title === "Cub3d" ? <Cub3dPreview expanded /> : activeVideoProject.previewContent}
                   </div>
                 )}
               </div>
             </motion.div>
           </motion.div>
-        )}
+        ), document.body)}
       </AnimatePresence>
     </section>
   );

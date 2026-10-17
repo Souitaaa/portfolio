@@ -55,8 +55,8 @@ export default function MinishellPreview() {
   };
 
   return (
-    <div className="flex flex-col text-sm md:text-base font-mono leading-relaxed select-text p-8 w-full h-full max-w-2xl bg-black/60 rounded-2xl border border-white/10 shadow-2xl text-neutral-300 overflow-hidden" onClick={() => inputRef.current?.focus()}>
-      <div ref={containerRef} className="flex-1 overflow-y-auto custom-scrollbar flex flex-col gap-3">
+    <div className="flex flex-col text-sm md:text-base font-mono leading-relaxed select-text p-3 sm:p-5 w-full h-full max-w-2xl bg-black/60 rounded-2xl border border-white/10 shadow-2xl text-neutral-300 overflow-hidden" onClick={() => inputRef.current?.focus()}>
+      <div ref={containerRef} className="min-h-0 min-w-0 flex-1 overflow-y-auto break-words custom-scrollbar flex flex-col gap-3">
         {history.map((line, i) => (
           <div key={i}>
             {line.type === 'command' ? (
@@ -75,10 +75,12 @@ export default function MinishellPreview() {
             type="text"
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            className="flex-1 bg-transparent border-none outline-none text-white font-mono"
+            className="min-w-0 w-full flex-1 bg-transparent border-none outline-none text-white font-mono"
             autoComplete="off"
             spellCheck="false"
+            enterKeyHint="send"
           />
+          <button type="submit" className="shrink-0 min-h-11 px-2 rounded border border-white/20 text-xs" aria-label="Send command or message">↵</button>
         </form>
       </div>
     </div>

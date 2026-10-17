@@ -11,7 +11,7 @@ export default function CrmPreview() {
 
   return (
     <div className="w-full h-full relative flex flex-col p-4 md:p-6 font-sans select-none">
-      <div className="flex justify-between items-center border-b border-neutral-200 dark:border-neutral-800/50 pb-3 mb-4 transition-colors duration-300">
+      <div className="flex flex-wrap gap-3 justify-between items-center border-b border-neutral-200 dark:border-neutral-800/50 pb-3 mb-4 transition-colors duration-300">
         <div className="flex gap-2 items-center">
           <div className="w-2.5 h-2.5 rounded-full bg-emerald-500 shadow-[0_0_10px_rgba(16,185,129,0.5)]"></div>
           <span className="text-[10px] md:text-xs font-bold tracking-wider text-neutral-700 dark:text-neutral-300 transition-colors duration-300">MYCEL_CRM</span>

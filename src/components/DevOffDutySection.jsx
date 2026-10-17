@@ -37,7 +37,8 @@ export default function DevOffDutySection() {
         >
           <AnimatePresence mode="wait">
             {!isHovered && isDevMode ? (
-              <motion.div
+              <motion.button
+                type="button" aria-label="Open mode switcher" onClick={() => setIsHovered(true)}
                 key="collapsed"
                 initial={{ opacity: 0, scale: 0.5 }}
                 animate={{ opacity: 1, scale: 1 }}
@@ -45,7 +46,7 @@ export default function DevOffDutySection() {
                 className="w-10 h-10 flex items-center justify-center text-neutral-500"
               >
                 <Sparkles size={16} />
-              </motion.div>
+              </motion.button>
             ) : (
               <motion.div
                 key="expanded"
